@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -8,6 +9,12 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+export const metadata: Metadata = {
+  title: "Computer Science Society | AMU",
+  description:
+    "Official website of the Computer Science Society, Department of Computer Science, Aligarh Muslim University.",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -15,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} antialiased`}>
+      <body className={`${spaceGrotesk.variable} min-h-screen antialiased`}>
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -1,15 +1,19 @@
-export default function membershipForm() {
-  return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-white px-6">
-      <div className="text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#3035B5]">
-          CSS Recruitment
-        </p>
+import ComingSoonHero from "@/components/ui/ComingSoonHero";
+import AnimatedLogo from "@/components/AnimatedLogo";
 
-        <h1 className="text-3xl font-bold text-[#25297F] sm:text-5xl">
-          Recruitment form coming soon
-        </h1>
+export default function MembershipFormPage() {
+  return (
+    <div className="relative min-h-[80vh]">
+      <div className="absolute left-1/2 top-16 -translate-x-1/2">
+        <AnimatedLogo size="md" />
       </div>
-    </main>
+      <ComingSoonHero
+        eyebrow="CSS Recruitment"
+        title="Team recruitment opens soon"
+        description="We're polishing the next recruitment cycle. Stay tuned on our socials — the form will go live here when applications open."
+        backHref="/team"
+        backLabel="Meet the team"
+      />
+    </div>
   );
 }
