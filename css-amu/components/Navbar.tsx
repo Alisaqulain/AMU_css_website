@@ -42,6 +42,12 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          <Link
+            href="/membershipForm"
+            className="rounded-lg bg-[#3035B5] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-900"
+          >
+            Join Team
+          </Link>
         </div>
 
         <button
@@ -92,6 +98,13 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                href="/membershipForm"
+                onClick={() => setIsOpen(false)}
+                className="mt-2 rounded-lg bg-blue-400 px-3 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              >
+                Join Team
+              </Link>
             </div>
           </div>
         </div>
