@@ -25,8 +25,8 @@ export default function ClubsShowcase() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader
           eyebrow="Technical verticals"
-          title="Four clubs. One society."
-          description="Each domain runs its own projects, study circles, and events — pick where you want to grow first."
+          title="Four clubs, one society"
+          description="Each club runs its own projects, study circles, and events. Pick one to start."
         />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-2">

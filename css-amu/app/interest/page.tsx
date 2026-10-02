@@ -16,11 +16,11 @@ export default function InterestPage() {
                 Club Interest Form
               </p>
               <h1 className="text-4xl font-bold tracking-tight text-[#25297F] sm:text-5xl">
-                Tell us which club fits you
+                Club interest form
               </h1>
               <p className="mx-auto mt-5 text-base leading-7 text-slate-600">
-                Choose AI/ML, Web Development, Cybersecurity, or DSA. Domain leads
-                review submissions and follow up with onboarding details.
+                Pick AI/ML, Web Development, Cybersecurity, or DSA. A domain lead
+                will review your form and reply with next steps.
               </p>
             </FadeIn>
           </div>

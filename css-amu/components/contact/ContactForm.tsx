@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 
@@ -24,6 +24,42 @@ export default function ContactForm() {
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [submittedAt, setSubmittedAt] = useState<string | null>(null);
+  const [captchaQuestion, setCaptchaQuestion] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [captchaLoading, setCaptchaLoading] = useState(true);
+
+  const loadCaptcha = useCallback(async () => {
+    setCaptchaLoading(true);
+    setCaptchaAnswer("");
+    try {
+      const res = await fetch("/api/contact/captcha");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setCaptchaQuestion("");
+        setCaptchaToken("");
+        setErrorMessage(
+          typeof data.error === "string"
+            ? data.error
+            : "Could not load captcha.",
+        );
+        return;
+      }
+      setCaptchaQuestion(data.question ?? "");
+      setCaptchaToken(data.token ?? "");
+      setErrorMessage("");
+    } catch {
+      setCaptchaQuestion("");
+      setCaptchaToken("");
+      setErrorMessage("Could not load captcha. Refresh the page.");
+    } finally {
+      setCaptchaLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCaptcha();
+  }, [loadCaptcha]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +67,18 @@ export default function ContactForm() {
     setStatus("loading");
     setErrorMessage("");
     setSubmittedAt(null);
+
+    if (!captchaToken) {
+      setStatus("idle");
+      setErrorMessage("Captcha is not ready. Wait a moment or refresh.");
+      return;
+    }
+
+    if (!captchaAnswer.trim()) {
+      setStatus("idle");
+      setErrorMessage("Enter the answer to the math question.");
+      return;
+    }
 
     const formData = new FormData(form);
     const payload = {
@@ -42,7 +90,7 @@ export default function ContactForm() {
 
     const result = contactSchema.safeParse(payload);
     if (!result.success) {
-      setStatus("error");
+      setStatus("idle");
       setErrorMessage(
         result.error.issues[0]?.message ?? "Please check the form.",
       );
@@ -53,13 +101,18 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result.data),
+        body: JSON.stringify({
+          ...result.data,
+          captchaToken,
+          captchaAnswer: captchaAnswer.trim(),
+        }),
       });
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setStatus("error");
+        setStatus("idle");
         setErrorMessage(data.error ?? "Something went wrong.");
+        await loadCaptcha();
         return;
       }
 
@@ -70,9 +123,11 @@ export default function ContactForm() {
           : new Date().toISOString(),
       );
       form.reset();
+      await loadCaptcha();
     } catch {
-      setStatus("error");
+      setStatus("idle");
       setErrorMessage("Network error. Please try again.");
+      await loadCaptcha();
     }
   };
 
@@ -83,6 +138,9 @@ export default function ContactForm() {
       timeStyle: "short",
       timeZone: "Asia/Kolkata",
     });
+
+  const canSubmit =
+    Boolean(captchaToken) && captchaAnswer.trim().length > 0 && !captchaLoading;
 
   return (
     <motion.form
@@ -129,7 +187,7 @@ export default function ContactForm() {
             id="subject"
             name="subject"
             className={inputClass}
-            placeholder="Workshops, partnerships, general query…"
+            placeholder="Workshops, partnerships, general query"
           />
         </div>
 
@@ -147,6 +205,41 @@ export default function ContactForm() {
           />
         </div>
 
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="min-w-[12rem] flex-1 space-y-2">
+              <label
+                htmlFor="captcha-answer"
+                className="text-sm font-semibold text-[#25297F]"
+              >
+                {captchaLoading
+                  ? "Loading check…"
+                  : captchaQuestion || "Security check"}
+              </label>
+              <input
+                id="captcha-answer"
+                name="captcha-answer"
+                type="text"
+                inputMode="numeric"
+                autoComplete="off"
+                value={captchaAnswer}
+                onChange={(e) => setCaptchaAnswer(e.target.value)}
+                disabled={captchaLoading || !captchaToken}
+                className={inputClass}
+                placeholder="Your answer"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => loadCaptcha()}
+              disabled={captchaLoading}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-[#3035B5] hover:bg-slate-50 disabled:opacity-50"
+            >
+              New question
+            </button>
+          </div>
+        </div>
+
         <AnimatePresence mode="wait">
           {status === "success" && (
             <motion.div
@@ -156,7 +249,7 @@ export default function ContactForm() {
               className="rounded-2xl border border-[#3CA049]/30 bg-[#3CA049]/10 px-4 py-4 text-sm text-[#2d7a38]"
             >
               <p className="font-medium">
-                Thank you — your message was sent. We will get back to you soon.
+                Your message was sent. We will reply by email when we can.
               </p>
               {formattedSubmittedAt && (
                 <p className="mt-1 text-xs opacity-90">
@@ -165,7 +258,7 @@ export default function ContactForm() {
               )}
             </motion.div>
           )}
-          {status === "error" && errorMessage && (
+          {errorMessage && status !== "success" && (
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -178,9 +271,9 @@ export default function ContactForm() {
 
         <motion.button
           type="submit"
-          disabled={status === "loading"}
-          whileHover={{ scale: status === "loading" ? 1 : 1.008 }}
-          whileTap={{ scale: status === "loading" ? 1 : 0.992 }}
+          disabled={status === "loading" || !canSubmit}
+          whileHover={{ scale: status === "loading" || !canSubmit ? 1 : 1.008 }}
+          whileTap={{ scale: status === "loading" || !canSubmit ? 1 : 0.992 }}
           className="w-full rounded-2xl bg-[#3035B5] px-6 py-4 text-sm font-bold text-white shadow-lg shadow-[#3035B5]/25 transition hover:bg-[#25297F] disabled:opacity-60"
         >
           {status === "loading" ? "Sending…" : "Send message"}

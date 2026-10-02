@@ -28,7 +28,7 @@ export default function Home() {
             <SectionHeader
               eyebrow="About us"
               title="What is CSS?"
-              description="Faculty of Science, Aligarh Muslim University — formerly ADC, recognized as the Computer Science Society since 2021."
+              description="Faculty of Science, AMU. Formerly ADC; recognized as CSS since 2021."
             />
             <FadeIn delay={0.1}>
               <div className="space-y-6 text-lg leading-8 text-slate-600">
@@ -36,10 +36,10 @@ export default function Home() {
                 <p>{introductionParagraphs[1]}</p>
                 <ul className="grid gap-3 sm:grid-cols-2 text-sm font-medium text-[#25297F]">
                   {[
-                    "Faculty-led vision",
+                    "Faculty committee",
                     "Student domain leads",
-                    "Open club onboarding",
-                    "Placement-aligned DSA",
+                    "Club interest form",
+                    "DSA and placement groups",
                   ].map((item) => (
                     <li
                       key={item}
@@ -84,14 +84,14 @@ export default function Home() {
             <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#25297F] via-[#3035B5] to-[#5B2D91] px-8 py-16 text-center text-white sm:px-16">
               <div className="pointer-events-none absolute inset-0 pattern-dots opacity-20" />
               <p className="relative text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
-                Get involved
+                Join a club
               </p>
               <h2 className="relative mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                Ready to pick your club?
+                Club interest form
               </h2>
               <p className="relative mx-auto mt-5 max-w-2xl text-lg leading-8 text-blue-100">
-                AI/ML · Web Development · Cybersecurity · DSA — one form, and the
-                right lead gets back to you.
+                AI/ML, Web Development, Cybersecurity, or DSA. Submit the form and
+                the domain lead will contact you.
               </p>
               <div className="relative mt-10 flex flex-wrap justify-center gap-4">
                 <Link

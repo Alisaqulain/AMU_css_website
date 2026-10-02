@@ -15,8 +15,8 @@ export default function TeamPageHero() {
             Coordinators, mentors & domain leads
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">
-            Student leaders who run clubs, events, and mentorship — supported by
-            faculty and the wider CS department community.
+            Student coordinators and domain leads for clubs, events, and mentorship,
+            with the faculty committee listed below.
           </p>
           <dl className="mx-auto mt-8 grid w-full max-w-lg grid-cols-1 gap-3 sm:mx-0 sm:max-w-none sm:grid-cols-3 sm:gap-4 lg:justify-items-start">
             {societyStats.slice(0, 3).map((s) => (

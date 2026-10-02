@@ -19,7 +19,7 @@ const fallback: EventRow[] = [
     id: "1",
     title: "AMUHACKS 6.0",
     description:
-      "The next edition of our flagship hackathon — bigger tracks and mentor support.",
+      "Next AMUHACKS edition. More tracks and mentors on site.",
     year: "2026",
     is_coming_soon: true,
   },
@@ -27,7 +27,7 @@ const fallback: EventRow[] = [
     id: "2",
     title: "AMUHACKS 5.0",
     description:
-      "A national-level hackathon bringing together students to build innovative solutions.",
+      "National hackathon where student teams build and present projects over the weekend.",
     year: "2025",
     is_coming_soon: false,
   },
@@ -35,7 +35,7 @@ const fallback: EventRow[] = [
     id: "3",
     title: "Capture The Flag",
     description:
-      "Cybersecurity competition designed to test problem-solving and technical skills.",
+      "Cybersecurity competition focused on puzzles, flags, and hands-on challenges.",
     year: "2025",
     is_coming_soon: false,
   },
@@ -62,9 +62,9 @@ export default function HomeEventsPreview() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <SectionHeader
-            eyebrow="Our journey"
-            title="Events & milestones"
-            description="From AMUHACKS to CTF week — see what we have hosted and what is next."
+            eyebrow="Events"
+            title="Recent and upcoming"
+            description="AMUHACKS, CTFs, and workshops. Full list on the Events page."
           />
           <Link
             href="/events"

@@ -83,7 +83,7 @@ export function exportClubInterestsPdf(
 ) {
   const doc = new jsPDF({ orientation: "landscape" });
   doc.setFontSize(14);
-  doc.text("CSS AMU — Club interest submissions", 14, 14);
+  doc.text("CSS AMU: Club interest submissions", 14, 14);
   autoTable(doc, {
     startY: 20,
     head: [
@@ -141,14 +141,14 @@ export function exportContactPdf(
 ) {
   const doc = new jsPDF({ orientation: "landscape" });
   doc.setFontSize(14);
-  doc.text("CSS AMU — Contact messages", 14, 14);
+  doc.text("CSS AMU: Contact messages", 14, 14);
   autoTable(doc, {
     startY: 20,
     head: [["Name", "Email", "Subject", "Message", "Submitted"]],
     body: rows.map((r) => [
       r.name,
       r.email,
-      r.subject || "—",
+      r.subject || "-",
       r.message.length > 120 ? `${r.message.slice(0, 117)}…` : r.message,
       formatDate(r.created_at),
     ]),

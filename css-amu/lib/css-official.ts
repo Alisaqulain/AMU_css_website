@@ -4,15 +4,15 @@ export const cssIdentity = {
   fullName: "Computer Science Society (CSS)",
   formerName: "Area of Dominant Coders Club (ADC)",
   affiliation:
-    "Faculty of Science, Aligarh Muslim University, Aligarh — Department of Computer Science",
+    "Faculty of Science, Aligarh Muslim University, Aligarh, Department of Computer Science",
   email: "society.cs@myamu.ac.in",
-  address: "Aligarh Muslim University, Aligarh, Uttar Pradesh, India — 202002",
+  address: "Aligarh Muslim University, Aligarh, Uttar Pradesh, India 202002",
   officialPageUrl:
     "https://www.amu.ac.in/miscellaneous/computer-science-society",
 };
 
 export const introductionParagraphs = [
-  "The Computer Science Society — CSS (formerly the Area of Dominant Coders Club — ADC) is an initiative of the students of the Department of Computer Science, Aligarh Muslim University, Aligarh. It is a platform to share the knowledge of Computer Science among all interested members of the Faculty of Science.",
+  "The Computer Science Society (CSS), formerly the Area of Dominant Coders Club (ADC), is run by students in the Department of Computer Science, Aligarh Muslim University. It shares computer science knowledge with interested members of the Faculty of Science.",
   "Inspired by the vision of Sir Syed to create a scientific society, the ADC club was formed in December 2018 and has been consistently working since then. It consists of a team of B.Sc. (Hons.) and MCA students of the University having technical insight and a passion for programming. Here we mentor, guide, share, and learn from each other regarding the latest technology, giving students the much-needed exposure for industrial demands and global trends.",
   "The club received a warm response from the students of the Department of Computer Science. The members of the club are accomplishing various achievements and recognition in the field of Information Technology. In addition to regular informative sessions, the club also organizes workshops, hackathons, and internships at regular intervals.",
 ] as const;
@@ -24,7 +24,7 @@ export const historyMilestones = [
     title: "The inception",
     body: [
       "The Area of Dominant Coders Club (ADC) came into existence in 2018. Initially, it involved 27 registered members from B.Sc. (Hons.) Computer Applications I and II Year.",
-      "Coordinators from the final year — Mr. Arish Rehman, Mr. Mohammad Areeb, Mr. Mohammad Umair, and Mr. Jaanbaaz Akhtar — mentored, guided, and shared knowledge regarding the latest technology, giving students much-needed exposure to industrial demand and global trends.",
+      "Final-year coordinators (Mr. Arish Rehman, Mr. Mohammad Areeb, Mr. Mohammad Umair, and Mr. Jaanbaaz Akhtar) mentored juniors and ran sessions on current technology and industry practice.",
       "Classes were arranged during breaks or in the afternoon to avoid clashes with regular department classes. The vision was to provide a platform for all future students of the department to showcase their skills and present their ideas.",
     ],
   },
@@ -64,7 +64,7 @@ export const societyObjectives = [
 
 export const societyOutcomes = [
   "Better job opportunities and stronger performance in recruitment drives.",
-  "Ability to develop applications — websites, apps, machine learning, and IoT-related products.",
+  "Ability to develop applications: websites, apps, machine learning, and IoT-related products.",
   "Confidence to represent the University on national and international platforms.",
   "Access to good internship opportunities.",
   "Contribution to automating manual processes of the University.",

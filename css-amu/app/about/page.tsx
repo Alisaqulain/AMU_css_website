@@ -38,9 +38,8 @@ export default function AboutPage() {
               {cssIdentity.affiliation}
             </p>
             <p className="mt-6 text-slate-600 leading-8">
-              Formerly the <strong>Area of Dominant Coders (ADC)</strong> — sharing
-              computer science knowledge across the Faculty of Science since
-              December 2018.
+              Formerly the <strong>Area of Dominant Coders (ADC)</strong>. Sharing
+              computer science across the Faculty of Science since December 2018.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link

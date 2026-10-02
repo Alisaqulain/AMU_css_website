@@ -16,7 +16,7 @@ export default function WhyJoinSection() {
           <SectionHeader
             eyebrow="Student life"
             title="Why students join CSS"
-            description="Whether you are in your first semester or final year, there is a track that meets you where you are."
+            description="First year or final year, you can join a club or help run an event."
           />
 
           <div className="grid gap-4 sm:grid-cols-2">

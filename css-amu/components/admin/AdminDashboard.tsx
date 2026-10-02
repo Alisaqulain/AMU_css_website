@@ -460,7 +460,7 @@ export default function AdminDashboard() {
                         {row.enrollment_number}
                       </td>
                       <td className="px-4 py-3 text-slate-600">
-                        {row.semester || "—"}
+                        {row.semester || "-"}
                       </td>
                       <td className="px-4 py-3">
                         {row.not_interested ? (
@@ -484,7 +484,7 @@ export default function AdminDashboard() {
                         )}
                       </td>
                       <td className="px-4 py-3 text-slate-500">
-                        {row.other_club || "—"}
+                        {row.other_club || "-"}
                       </td>
                       <td className="px-4 py-3 text-xs text-slate-600">
                         {formatSubmittedAt(row.created_at)}
@@ -559,7 +559,7 @@ export default function AdminDashboard() {
                       </td>
                       <td className="px-4 py-3 text-slate-600">{row.email}</td>
                       <td className="px-4 py-3 text-slate-600">
-                        {row.subject || "—"}
+                        {row.subject || "-"}
                       </td>
                       <td className="max-w-xs px-4 py-3 text-slate-600">
                         <p className="line-clamp-3 whitespace-pre-wrap">

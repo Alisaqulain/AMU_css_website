@@ -12,7 +12,7 @@ export default function TimelineSection() {
         <SectionHeader
           eyebrow="Our story"
           title="From ADC to CSS"
-          description="Official milestones from the AMU Computer Science Society — Sir Syed’s vision, student-led since 2018."
+          description="Key dates for ADC and CSS at AMU. Student-led since 2018."
         />
 
         <div className="relative mt-16">

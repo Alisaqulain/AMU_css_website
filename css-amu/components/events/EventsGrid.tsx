@@ -48,7 +48,7 @@ export default function EventsGrid() {
           Events are being lined up
         </p>
         <p className="mt-2 text-slate-600">
-          Check back soon — something exciting is on the way.
+          No events listed yet. Check again later.
         </p>
       </FadeIn>
     );
@@ -70,7 +70,7 @@ export default function EventsGrid() {
 
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-[#3035B5]">
-                {event.year || "—"}
+                {event.year || "-"}
               </span>
               {!event.is_coming_soon && (
                 <span className="text-slate-400 transition-transform group-hover:translate-x-1">

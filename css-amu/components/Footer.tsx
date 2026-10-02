@@ -30,10 +30,10 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-6 py-12 lg:flex-row lg:items-center lg:px-8">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200/90">
-              Get involved
+              Clubs
             </p>
             <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
-              Join a field. Build with CSS.
+              Join a club or the core team
             </h2>
           </div>
           <Link
@@ -124,13 +124,27 @@ export default function Footer() {
             </h3>
             <div className="mt-4 flex gap-2">
               {[
-                { icon: FaInstagram, label: "Instagram" },
-                { icon: FaLinkedinIn, label: "LinkedIn" },
-                { icon: FaGithub, label: "GitHub" },
-              ].map(({ icon: Icon, label }) => (
+                {
+                  icon: FaInstagram,
+                  label: "CSS on Instagram",
+                  href: "https://www.instagram.com/css.amu/",
+                },
+                {
+                  icon: FaLinkedinIn,
+                  label: "CSS on LinkedIn",
+                  href: "https://www.linkedin.com/company/cssamu",
+                },
+                {
+                  icon: FaGithub,
+                  label: "CSS on GitHub",
+                  href: "https://github.com/CSS-AMU",
+                },
+              ].map(({ icon: Icon, label, href }) => (
                 <a
-                  key={label}
-                  href="#"
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-slate-400 ring-1 ring-white/10 transition hover:bg-[#3035B5]/40 hover:text-white"
                 >

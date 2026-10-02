@@ -17,8 +17,8 @@ export default function EventsPage() {
               Hackathons, workshops & competitions
             </h1>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              CSS runs flagship events like AMUHACKS alongside weekly workshops,
-              CTFs, and domain-specific sprints. Upcoming items show a{" "}
+              CSS runs AMUHACKS, weekly workshops, CTFs, and club events. Upcoming
+              items show a{" "}
               <span className="font-semibold text-[#b87d2e]">Coming Soon</span> badge.
             </p>
           </FadeIn>
@@ -55,7 +55,7 @@ export default function EventsPage() {
         <FadeIn className="mb-10">
           <h2 className="text-2xl font-bold text-[#25297F]">All events</h2>
           <p className="mt-2 text-slate-600">
-            Pulled from the live calendar — admins can add more from the dashboard.
+            Loaded from the site database. Admins can add events from the dashboard.
           </p>
         </FadeIn>
         <EventsGrid />

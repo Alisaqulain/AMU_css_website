@@ -16,11 +16,10 @@ export default function ContactPage() {
                 Contact us
               </p>
               <h1 className="text-4xl font-bold tracking-tight text-[#25297F] sm:text-5xl">
-                Reach the Computer Science Society
+                Contact CSS
               </h1>
               <p className="mx-auto mt-5 text-base leading-7 text-slate-600">
-                Questions about clubs, events, or collaborations? Send a message
-                below or email us at{" "}
+                For clubs, events, or general queries, use the form or email{" "}
                 <a
                   href={`mailto:${cssIdentity.email}`}
                   className="font-semibold text-[#3035B5] hover:underline"

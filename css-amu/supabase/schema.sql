@@ -72,7 +72,7 @@ create policy "Service role full access contact messages"
   with check (true);
 
 insert into public.events (title, description, year, is_coming_soon) values
-  ('AMUHACKS 6.0', 'The next edition of our flagship hackathon — bigger, bolder, and built for builders.', '2026', true),
+  ('AMUHACKS 6.0', 'Next AMUHACKS edition. More tracks and mentors on site.', '2026', true),
   ('AMUHACKS 5.0', 'A national-level hackathon bringing together students to build innovative solutions.', '2025', false),
   ('AMUHACKS 4.0', 'A flagship CSS hackathon focused on creativity, technology, and problem solving.', '2024', false),
   ('Capture The Flag', 'A cybersecurity-focused competition designed to test problem-solving and technical skills.', '2025', false)

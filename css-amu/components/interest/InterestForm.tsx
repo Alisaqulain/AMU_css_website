@@ -317,7 +317,7 @@ export default function InterestForm() {
             <span className="mt-1 block text-xs text-slate-500">
               {notInterested
                 ? "Tap again to unselect and choose clubs above"
-                : "Optional — if none of the clubs apply to you"}
+                : "Optional. Use this if none of the clubs apply."}
             </span>
           </button>
         </section>
@@ -325,7 +325,7 @@ export default function InterestForm() {
         <Field
           id="other_club"
           label="Already in another club?"
-          hint="Optional — mention if you are already part of another society or club."
+          hint="Optional. Name another society or club if you are already a member."
         >
           <input
             id="other_club"
@@ -347,8 +347,7 @@ export default function InterestForm() {
               <span className="text-lg" aria-hidden>✓</span>
               <div>
                 <p className="font-medium">
-                  Submitted successfully. Domain leads will contact you when
-                  relevant.
+                  Form received. A domain lead will email you with next steps.
                 </p>
                 {formattedSubmittedAt && (
                   <p className="mt-1 text-xs text-[#2d7a38]/90">

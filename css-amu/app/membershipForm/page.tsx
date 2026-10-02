@@ -10,7 +10,7 @@ export default function MembershipFormPage() {
       <ComingSoonHero
         eyebrow="CSS Recruitment"
         title="Team recruitment opens soon"
-        description="We're polishing the next recruitment cycle. Stay tuned on our socials — the form will go live here when applications open."
+        description="The next core team recruitment form will appear here. Follow our social accounts for the opening date."
         backHref="/team"
         backLabel="Meet the team"
       />

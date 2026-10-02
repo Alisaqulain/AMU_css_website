@@ -47,10 +47,10 @@ export default function HeroSection() {
             transition={{ duration: 0.55, delay: 0.06 }}
             className="text-5xl font-bold tracking-tight text-[#25297F] sm:text-6xl lg:text-7xl xl:text-8xl"
           >
-            Build the future
+            Computer Science
             <br />
             <span className="bg-linear-to-r from-[#3035B5] via-[#5B2D91] to-[#3CA049] bg-clip-text text-transparent">
-              with CSS.
+              Society, AMU
             </span>
           </motion.h1>
 
@@ -60,9 +60,9 @@ export default function HeroSection() {
             transition={{ duration: 0.55, delay: 0.14 }}
             className="mt-8 max-w-2xl text-lg leading-8 text-slate-600"
           >
-            The Computer Science Society is AMU&apos;s student hub for hackathons,
-            workshops, CTFs, and domain clubs in AI/ML, Web Development,
-            Cybersecurity, and DSA — mentored by leads and faculty.
+            Student society for hackathons, workshops, CTFs, and clubs in AI/ML,
+            Web Development, Cybersecurity, and DSA. Faculty committee and
+            student leads run day-to-day work.
           </motion.p>
 
           <motion.div
@@ -101,7 +101,7 @@ export default function HeroSection() {
             {[
               { k: "Domains", v: "4 clubs" },
               { k: "Since", v: "2018" },
-              { k: "Flagship", v: "AMUHACKS" },
+              { k: "Hackathon", v: "AMUHACKS" },
             ].map((row) => (
               <div key={row.k}>
                 <dt className="text-xs font-medium uppercase tracking-wider text-slate-500">

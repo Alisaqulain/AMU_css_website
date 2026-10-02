@@ -10,8 +10,8 @@ export default function InitiativesGrid() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader
           eyebrow="What we run"
-          title="More than a poster on the wall"
-          description="CSS is where hackathons, workshops, placement prep, and domain clubs actually happen."
+          title="Activities"
+          description="Hackathons, workshops, placement prep, and club meetings through the year."
         />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
