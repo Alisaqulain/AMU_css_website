@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { FaLinkedinIn } from "react-icons/fa";
 
-export const teamCardWidthClass =
-  "w-[calc(50%-0.75rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] xl:w-[calc(25%-1.5rem)]";
+export const teamCardWidthClass = "w-full";
 
 export default function TeamCard({
   name,
@@ -28,7 +27,7 @@ export default function TeamCard({
           src={image}
           alt={name}
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 

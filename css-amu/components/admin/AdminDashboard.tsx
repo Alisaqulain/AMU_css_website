@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CLUB_OPTIONS } from "@/lib/clubs";
+import {
+  exportClubInterestsCsv,
+  exportClubInterestsPdf,
+  exportContactCsv,
+  exportContactPdf,
+} from "@/lib/admin-export";
 
 type EventRow = {
   id: string;
@@ -26,6 +32,17 @@ type InterestRow = {
   created_at: string;
 };
 
+type ContactRow = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  created_at: string;
+};
+
+type AdminTab = "events" | "interests" | "contact";
+
 function formatSubmittedAt(iso: string) {
   return new Date(iso).toLocaleString("en-IN", {
     dateStyle: "medium",
@@ -34,14 +51,46 @@ function formatSubmittedAt(iso: string) {
   });
 }
 
+function ExportButtons({
+  disabled,
+  onCsv,
+  onPdf,
+}: {
+  disabled: boolean;
+  onCsv: () => void;
+  onPdf: () => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={onCsv}
+        className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+      >
+        Download Excel (CSV)
+      </button>
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={onPdf}
+        className="rounded-lg border border-[#3035B5]/30 bg-[#3035B5]/5 px-3 py-1.5 text-xs font-semibold text-[#3035B5] hover:bg-[#3035B5]/10 disabled:opacity-50"
+      >
+        Download PDF
+      </button>
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const [authed, setAuthed] = useState(false);
   const [checking, setChecking] = useState(true);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [tab, setTab] = useState<"events" | "interests">("events");
+  const [tab, setTab] = useState<AdminTab>("events");
   const [events, setEvents] = useState<EventRow[]>([]);
   const [interests, setInterests] = useState<InterestRow[]>([]);
+  const [contacts, setContacts] = useState<ContactRow[]>([]);
   const [eventForm, setEventForm] = useState({
     title: "",
     description: "",
@@ -50,14 +99,20 @@ export default function AdminDashboard() {
   });
   const [message, setMessage] = useState("");
   const [interestsError, setInterestsError] = useState("");
+  const [contactsError, setContactsError] = useState("");
 
   const loadData = useCallback(async () => {
-    const [evRes, intRes] = await Promise.all([
+    const [evRes, intRes, contactRes] = await Promise.all([
       fetch("/api/admin/events"),
       fetch("/api/admin/club-interests"),
+      fetch("/api/admin/contact-messages"),
     ]);
 
-    if (evRes.status === 401 || intRes.status === 401) {
+    if (
+      evRes.status === 401 ||
+      intRes.status === 401 ||
+      contactRes.status === 401
+    ) {
       setAuthed(false);
       return;
     }
@@ -65,14 +120,23 @@ export default function AdminDashboard() {
     setAuthed(true);
     const evData = await evRes.json();
     const intData = await intRes.json();
+    const contactData = await contactRes.json();
     setEvents(evData.events ?? []);
     setInterests(intData.interests ?? []);
+    setContacts(contactData.messages ?? []);
     setInterestsError(
       typeof intData.error === "string"
         ? intData.error
         : intRes.status === 503
           ? "Could not load club interest submissions."
-          : ""
+          : "",
+    );
+    setContactsError(
+      typeof contactData.error === "string"
+        ? contactData.error
+        : contactRes.status === 503
+          ? "Could not load contact messages."
+          : "",
     );
   }, []);
 
@@ -102,6 +166,7 @@ export default function AdminDashboard() {
     setAuthed(false);
     setEvents([]);
     setInterests([]);
+    setContacts([]);
   };
 
   const addEvent = async (e: React.FormEvent) => {
@@ -133,6 +198,32 @@ export default function AdminDashboard() {
     await loadData();
   };
 
+  const deleteInterest = async (id: string) => {
+    if (!confirm("Delete this club interest row?")) return;
+    const res = await fetch(`/api/admin/club-interests?id=${id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setMessage(data.error ?? "Could not delete row.");
+      return;
+    }
+    await loadData();
+  };
+
+  const deleteContact = async (id: string) => {
+    if (!confirm("Delete this contact message?")) return;
+    const res = await fetch(`/api/admin/contact-messages?id=${id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setMessage(data.error ?? "Could not delete message.");
+      return;
+    }
+    await loadData();
+  };
+
   if (checking) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center text-slate-500">
@@ -151,7 +242,7 @@ export default function AdminDashboard() {
       >
         <h1 className="text-2xl font-bold text-[#25297F]">Admin sign in</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Manage events and view club interest submissions.
+          Manage events, club interests, and contact messages.
         </p>
         <input
           type="password"
@@ -174,12 +265,20 @@ export default function AdminDashboard() {
     );
   }
 
+  const tabLabels: { id: AdminTab; label: string }[] = [
+    { id: "events", label: "Events" },
+    { id: "interests", label: "Club interests" },
+    { id: "contact", label: "Contact" },
+  ];
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-[#25297F]">CSS Admin</h1>
-          <p className="mt-1 text-sm text-slate-600">Events & club interest data</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Events, club interest & contact data
+          </p>
         </div>
         <button
           type="button"
@@ -190,19 +289,19 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      <div className="flex gap-2 rounded-xl bg-slate-100 p-1">
-        {(["events", "interests"] as const).map((t) => (
+      <div className="flex flex-wrap gap-2 rounded-xl bg-slate-100 p-1">
+        {tabLabels.map(({ id, label }) => (
           <button
-            key={t}
+            key={id}
             type="button"
-            onClick={() => setTab(t)}
-            className={`flex-1 rounded-lg py-2.5 text-sm font-semibold capitalize transition ${
-              tab === t
+            onClick={() => setTab(id)}
+            className={`min-w-[7rem] flex-1 rounded-lg py-2.5 text-sm font-semibold transition ${
+              tab === id
                 ? "bg-white text-[#3035B5] shadow-sm"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            {t === "events" ? "Events" : "Club interests"}
+            {label}
           </button>
         ))}
       </div>
@@ -303,84 +402,189 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {tab === "interests" && interestsError && (
-        <div className="mb-4 rounded-xl border border-[#E1A65E]/40 bg-[#E1A65E]/15 px-4 py-3 text-sm text-[#8a5f1f]">
-          {interestsError}
-        </div>
-      )}
-
       {tab === "interests" && (
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-              <tr>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Course</th>
-                <th className="px-4 py-3">Enrollment</th>
-                <th className="px-4 py-3">Sem</th>
-                <th className="px-4 py-3">Clubs</th>
-                <th className="px-4 py-3">Other club</th>
-                <th className="px-4 py-3">Date & time (IST)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {interests.length === 0 ? (
+        <>
+          {interestsError && (
+            <div className="rounded-xl border border-[#E1A65E]/40 bg-[#E1A65E]/15 px-4 py-3 text-sm text-[#8a5f1f]">
+              {interestsError}
+            </div>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-slate-600">
+              {interests.length} submission{interests.length === 1 ? "" : "s"}
+            </p>
+            <ExportButtons
+              disabled={interests.length === 0}
+              onCsv={() =>
+                exportClubInterestsCsv(interests, formatSubmittedAt)
+              }
+              onPdf={() =>
+                exportClubInterestsPdf(interests, formatSubmittedAt)
+              }
+            />
+          </div>
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="min-w-full text-left text-sm">
+              <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-slate-500">
-                    {interestsError
-                      ? "Fix the server configuration above, then refresh."
-                      : "No submissions yet."}
-                  </td>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Course</th>
+                  <th className="px-4 py-3">Enrollment</th>
+                  <th className="px-4 py-3">Sem</th>
+                  <th className="px-4 py-3">Clubs</th>
+                  <th className="px-4 py-3">Other club</th>
+                  <th className="px-4 py-3">Date & time (IST)</th>
+                  <th className="px-4 py-3 w-20" />
                 </tr>
-              ) : (
-                interests.map((row) => (
-                  <tr key={row.id} className="hover:bg-slate-50/80">
-                    <td className="px-4 py-3 font-medium text-[#25297F]">
-                      {row.name}
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">{row.course}</td>
-                    <td className="px-4 py-3 text-slate-600">
-                      {row.enrollment_number}
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">
-                      {row.semester || "—"}
-                    </td>
-                    <td className="px-4 py-3">
-                      {row.not_interested ? (
-                        <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-700">
-                          Not interested
-                        </span>
-                      ) : (
-                        <div className="flex flex-wrap gap-1">
-                          {(row.club_names?.length
-                            ? row.club_names
-                            : row.club_name.split(", ")
-                          ).map((club) => (
-                            <span
-                              key={club}
-                              className="rounded-full bg-[#3035B5]/10 px-2 py-0.5 text-xs font-semibold text-[#3035B5]"
-                            >
-                              {club}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-slate-500">
-                      {row.other_club || "—"}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-slate-600">
-                      {formatSubmittedAt(row.created_at)}
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {interests.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={8}
+                      className="px-4 py-8 text-center text-slate-500"
+                    >
+                      {interestsError
+                        ? "Fix the server configuration above, then refresh."
+                        : "No submissions yet."}
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-          <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
-            Clubs: {CLUB_OPTIONS.join(", ")}
-          </p>
-        </div>
+                ) : (
+                  interests.map((row) => (
+                    <tr key={row.id} className="hover:bg-slate-50/80">
+                      <td className="px-4 py-3 font-medium text-[#25297F]">
+                        {row.name}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{row.course}</td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {row.enrollment_number}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {row.semester || "—"}
+                      </td>
+                      <td className="px-4 py-3">
+                        {row.not_interested ? (
+                          <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-700">
+                            Not interested
+                          </span>
+                        ) : (
+                          <div className="flex flex-wrap gap-1">
+                            {(row.club_names?.length
+                              ? row.club_names
+                              : row.club_name.split(", ")
+                            ).map((club) => (
+                              <span
+                                key={club}
+                                className="rounded-full bg-[#3035B5]/10 px-2 py-0.5 text-xs font-semibold text-[#3035B5]"
+                              >
+                                {club}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-slate-500">
+                        {row.other_club || "—"}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-slate-600">
+                        {formatSubmittedAt(row.created_at)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => deleteInterest(row.id)}
+                          className="text-sm text-[#CC484A] hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+            <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
+              Clubs: {CLUB_OPTIONS.join(", ")}
+            </p>
+          </div>
+        </>
+      )}
+
+      {tab === "contact" && (
+        <>
+          {contactsError && (
+            <div className="rounded-xl border border-[#E1A65E]/40 bg-[#E1A65E]/15 px-4 py-3 text-sm text-[#8a5f1f]">
+              {contactsError}
+            </div>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-slate-600">
+              {contacts.length} message{contacts.length === 1 ? "" : "s"}
+            </p>
+            <ExportButtons
+              disabled={contacts.length === 0}
+              onCsv={() => exportContactCsv(contacts, formatSubmittedAt)}
+              onPdf={() => exportContactPdf(contacts, formatSubmittedAt)}
+            />
+          </div>
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="min-w-full text-left text-sm">
+              <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Subject</th>
+                  <th className="px-4 py-3">Message</th>
+                  <th className="px-4 py-3">Date & time (IST)</th>
+                  <th className="px-4 py-3 w-20" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {contacts.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="px-4 py-8 text-center text-slate-500"
+                    >
+                      {contactsError
+                        ? "Fix the server configuration above, then refresh."
+                        : "No messages yet."}
+                    </td>
+                  </tr>
+                ) : (
+                  contacts.map((row) => (
+                    <tr key={row.id} className="hover:bg-slate-50/80">
+                      <td className="px-4 py-3 font-medium text-[#25297F]">
+                        {row.name}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{row.email}</td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {row.subject || "—"}
+                      </td>
+                      <td className="max-w-xs px-4 py-3 text-slate-600">
+                        <p className="line-clamp-3 whitespace-pre-wrap">
+                          {row.message}
+                        </p>
+                      </td>
+                      <td className="px-4 py-3 text-xs text-slate-600 whitespace-nowrap">
+                        {formatSubmittedAt(row.created_at)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => deleteContact(row.id)}
+                          className="text-sm text-[#CC484A] hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

@@ -82,15 +82,41 @@ export const societyOperations = [
   "In case of conflict, the matter is presented before the President; their decision is final.",
 ] as const;
 
+export const facultyPhotoUrls = {
+  president: "/faculity/arman.png",
+  convener: "/faculity/nadeem.jpg",
+} as const;
+
+export const facultyLeadCards = [
+  {
+    role: "President",
+    name: "Prof. Arman Rasool Faridi",
+    photo: facultyPhotoUrls.president,
+  },
+  {
+    role: "Convener",
+    name: "Dr. Mohammad Nadeem",
+    photo: facultyPhotoUrls.convener,
+  },
+] as const;
+
 export const facultyCommitteeRoles = [
-  { role: "President", name: "Prof. Arman Rasool Faridi" },
+  {
+    role: "President",
+    name: "Prof. Arman Rasool Faridi",
+    photo: facultyPhotoUrls.president,
+  },
   { role: "Senior Mentor", name: "Prof. Mohammad Ubaidullah Bokhari" },
   { role: "Mentor", name: "Prof. Aasim Zafar" },
   { role: "Mentor", name: "Prof. Suhel Mustajab" },
   { role: "Mentor", name: "Prof. Swaleha Zubair" },
   { role: "Mentor", name: "Dr. Faisal Anwer" },
   { role: "Mentor", name: "Dr. Mohammad Sajid" },
-  { role: "Convener", name: "Dr. Mohammad Nadeem" },
+  {
+    role: "Convener",
+    name: "Dr. Mohammad Nadeem",
+    photo: facultyPhotoUrls.convener,
+  },
 ] as const;
 
 export const studentCommitteeRoles = [
@@ -108,6 +134,7 @@ export const convenerProfile = {
   name: "Dr. Mohammad Nadeem",
   title: "Convener & Assistant Professor",
   department: "Department of Computer Science, AMU",
+  photo: facultyPhotoUrls.convener,
 };
 
 export const amuPortalLinks = [

@@ -11,6 +11,7 @@ const navLinks = [
   { name: "About", href: "/about" },
   { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const joinOptions = [

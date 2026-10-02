@@ -17,6 +17,7 @@ const quickLinks = [
   { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
   { name: "Interest form", href: "/interest" },
+  { name: "Contact", href: "/contact" },
   { name: "Recruitment", href: "/membershipForm" },
 ];
 

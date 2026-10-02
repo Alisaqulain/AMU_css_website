@@ -49,6 +49,28 @@ create policy "Service role full access club interests"
   using (true)
   with check (true);
 
+create table if not exists public.contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  subject text not null default '',
+  message text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.contact_messages enable row level security;
+
+create policy "Public can submit contact message"
+  on public.contact_messages for insert
+  to anon, authenticated
+  with check (true);
+
+create policy "Service role full access contact messages"
+  on public.contact_messages for all
+  to service_role
+  using (true)
+  with check (true);
+
 insert into public.events (title, description, year, is_coming_soon) values
   ('AMUHACKS 6.0', 'The next edition of our flagship hackathon — bigger, bolder, and built for builders.', '2026', true),
   ('AMUHACKS 5.0', 'A national-level hackathon bringing together students to build innovative solutions.', '2025', false),

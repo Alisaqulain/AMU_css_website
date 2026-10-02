@@ -18,13 +18,16 @@ export default function TeamPageHero() {
             Student leaders who run clubs, events, and mentorship — supported by
             faculty and the wider CS department community.
           </p>
-          <dl className="mt-8 flex flex-wrap justify-center gap-6 lg:justify-start">
+          <dl className="mx-auto mt-8 grid w-full max-w-lg grid-cols-1 gap-3 sm:mx-0 sm:max-w-none sm:grid-cols-3 sm:gap-4 lg:justify-items-start">
             {societyStats.slice(0, 3).map((s) => (
-              <div key={s.label} className="text-left">
-                <dt className="text-xs uppercase tracking-wider text-slate-500">
+              <div
+                key={s.label}
+                className="flex items-center justify-between gap-4 rounded-xl border border-slate-200/80 bg-white/80 px-4 py-3 sm:flex-col sm:items-start sm:justify-start sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
+              >
+                <dt className="min-w-0 text-left text-xs leading-snug uppercase tracking-wide text-slate-500 sm:tracking-wider">
                   {s.label}
                 </dt>
-                <dd className="text-lg font-bold text-[#25297F]">
+                <dd className="shrink-0 text-right text-xl font-bold tabular-nums text-[#25297F] sm:text-left sm:text-lg">
                   {s.value}
                   {s.suffix}
                 </dd>

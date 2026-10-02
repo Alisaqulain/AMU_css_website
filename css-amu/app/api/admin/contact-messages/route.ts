@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import {
-  deleteClubInterestById,
-  fetchClubInterestsForAdmin,
+  deleteContactMessageById,
+  fetchContactMessagesForAdmin,
 } from "@/lib/admin-data";
 
 export async function GET() {
@@ -10,13 +10,13 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data, error } = await fetchClubInterestsForAdmin();
+  const { data, error } = await fetchContactMessagesForAdmin();
 
   if (error && data.length === 0) {
-    return NextResponse.json({ interests: [], error }, { status: 503 });
+    return NextResponse.json({ messages: [], error }, { status: 503 });
   }
 
-  return NextResponse.json({ interests: data, warning: error });
+  return NextResponse.json({ messages: data, warning: error });
 }
 
 export async function DELETE(request: Request) {
@@ -30,7 +30,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Missing id." }, { status: 400 });
   }
 
-  const err = await deleteClubInterestById(id);
+  const err = await deleteContactMessageById(id);
   if (err) {
     return NextResponse.json({ error: err }, { status: 500 });
   }

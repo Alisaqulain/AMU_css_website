@@ -7,6 +7,7 @@ import HomeEventsPreview from "@/components/home/HomeEventsPreview";
 import ClubsShowcase from "@/components/home/ClubsShowcase";
 import InitiativesGrid from "@/components/home/InitiativesGrid";
 import TimelineSection from "@/components/home/TimelineSection";
+import FacultyLeadsSection from "@/components/home/FacultyLeadsSection";
 import LeadershipQuote from "@/components/home/LeadershipQuote";
 import WhyJoinSection from "@/components/home/WhyJoinSection";
 import FAQSection from "@/components/home/FAQSection";
@@ -19,6 +20,7 @@ export default function Home() {
       <HeroSection />
       <EventMarquee />
       <StatsStrip />
+      <FacultyLeadsSection />
 
       <section className="border-b border-slate-200/80 bg-white py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
