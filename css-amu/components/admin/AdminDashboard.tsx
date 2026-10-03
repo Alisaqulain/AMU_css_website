@@ -24,6 +24,7 @@ type InterestRow = {
   name: string;
   course: string;
   enrollment_number: string;
+  phone_number: string;
   semester: string;
   club_name: string;
   club_names: string[] | null;
@@ -430,6 +431,7 @@ export default function AdminDashboard() {
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Course</th>
                   <th className="px-4 py-3">Enrollment</th>
+                  <th className="px-4 py-3">Phone</th>
                   <th className="px-4 py-3">Sem</th>
                   <th className="px-4 py-3">Clubs</th>
                   <th className="px-4 py-3">Other club</th>
@@ -441,7 +443,7 @@ export default function AdminDashboard() {
                 {interests.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={8}
+                      colSpan={9}
                       className="px-4 py-8 text-center text-slate-500"
                     >
                       {interestsError
@@ -458,6 +460,9 @@ export default function AdminDashboard() {
                       <td className="px-4 py-3 text-slate-600">{row.course}</td>
                       <td className="px-4 py-3 text-slate-600">
                         {row.enrollment_number}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {row.phone_number || "-"}
                       </td>
                       <td className="px-4 py-3 text-slate-600">
                         {row.semester || "-"}

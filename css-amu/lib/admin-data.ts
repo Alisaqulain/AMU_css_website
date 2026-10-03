@@ -6,6 +6,7 @@ export type ClubInterestRow = {
   name: string;
   course: string;
   enrollment_number: string;
+  phone_number: string;
   semester: string;
   club_name: string;
   club_names: string[] | null;
@@ -53,7 +54,7 @@ export async function fetchClubInterestsForAdmin(): Promise<{
 }> {
   const sqlResult = await withSql(async (sql) =>
     sql<ClubInterestRow[]>`
-      select id, name, course, enrollment_number, semester, club_name, club_names, not_interested, other_club, created_at
+      select id, name, course, enrollment_number, phone_number, semester, club_name, club_names, not_interested, other_club, created_at
       from public.club_interests
       order by created_at desc
     `

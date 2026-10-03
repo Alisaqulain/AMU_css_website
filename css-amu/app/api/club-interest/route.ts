@@ -10,6 +10,15 @@ const bodySchema = z
     name: z.string().trim().min(2).max(120),
     course: z.string().trim().min(2).max(200),
     enrollment_number: z.string().trim().min(2).max(50),
+    phone_number: z
+      .string()
+      .trim()
+      .min(10)
+      .max(20)
+      .refine((value) => {
+        const digits = value.replace(/\D/g, "");
+        return digits.length >= 10 && digits.length <= 12;
+      }, "Invalid phone number."),
     semester: z.string().trim().min(1).max(30),
     club_names: z.array(clubEnum).default([]),
     not_interested: z.boolean().default(false),
@@ -57,6 +66,7 @@ export async function POST(request: Request) {
       name: parsed.data.name,
       course: parsed.data.course,
       enrollment_number: parsed.data.enrollment_number,
+      phone_number: parsed.data.phone_number.replace(/\D/g, ""),
       semester: parsed.data.semester,
       club_name: clubNameSummary,
       club_names: parsed.data.not_interested ? [] : parsed.data.club_names,

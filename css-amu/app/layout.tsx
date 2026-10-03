@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
 import { DM_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { organizationJsonLd, rootMetadata } from "@/lib/site-seo";
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
@@ -16,11 +17,7 @@ const sourceSerif = Source_Serif_4({
   weight: ["600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "Computer Science Society | AMU",
-  description:
-    "Official website of the Computer Science Society, Department of Computer Science, Aligarh Muslim University.",
-};
+export const metadata = rootMetadata;
 
 export default function RootLayout({
   children,
@@ -32,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${sourceSerif.variable} min-h-screen antialiased`}
       >
+        <JsonLd data={organizationJsonLd()} />
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -16,6 +16,7 @@ create table if not exists public.club_interests (
   name text not null,
   course text not null,
   enrollment_number text not null,
+  phone_number text not null default '',
   semester text not null default '',
   club_name text not null,
   club_names text[] not null default '{}',

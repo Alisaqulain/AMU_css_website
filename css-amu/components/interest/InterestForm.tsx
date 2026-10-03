@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
+import logo from "@/public/cslogo.png";
 import {
   CLUB_OPTIONS,
   NOT_INTERESTED_LABEL,
@@ -19,6 +21,15 @@ const clubInterestSchema = z
       .string()
       .trim()
       .min(2, "Please enter your enrollment number."),
+    phone_number: z
+      .string()
+      .trim()
+      .min(10, "Enter a valid phone number (at least 10 digits).")
+      .max(20, "Phone number is too long.")
+      .refine((value) => {
+        const digits = value.replace(/\D/g, "");
+        return digits.length >= 10 && digits.length <= 12;
+      }, "Enter a valid phone number (10–12 digits)."),
     semester: z
       .string()
       .trim()
@@ -67,14 +78,30 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       <label htmlFor={id} className="block text-sm font-semibold text-[#25297F]">
         {label}
       </label>
-      {hint && <p className="text-xs text-slate-500">{hint}</p>}
       {children}
+      {hint ? (
+        <p className="text-xs text-slate-500">{hint}</p>
+      ) : (
+        <span className="block min-h-4" aria-hidden />
+      )}
     </div>
   );
+}
+
+function onPhoneInput(e: FormEvent<HTMLInputElement>) {
+  const el = e.currentTarget;
+  const digits = el.value.replace(/\D/g, "").slice(0, 12);
+  if (el.value !== digits) el.value = digits;
+}
+
+function onEnrollmentInput(e: FormEvent<HTMLInputElement>) {
+  const el = e.currentTarget;
+  const upper = el.value.toUpperCase();
+  if (el.value !== upper) el.value = upper;
 }
 
 const inputClass =
@@ -117,6 +144,7 @@ export default function InterestForm() {
       name: formData.get("name"),
       course: formData.get("course"),
       enrollment_number: formData.get("enrollment_number"),
+      phone_number: formData.get("phone_number"),
       semester: formData.get("semester"),
       club_names: selectedClubs,
       not_interested: notInterested,
@@ -186,8 +214,18 @@ export default function InterestForm() {
       <div className="h-1.5 w-full bg-linear-to-r from-[#3035B5] via-[#5B2D91] to-[#3CA049]" />
 
       <div className="border-b border-slate-100 bg-slate-50/80 px-6 py-6 sm:px-10">
-        <h2 className="text-xl font-bold text-[#25297F]">Club interest form</h2>
-        <p className="mt-1 text-sm text-slate-600">
+        <div className="flex items-center gap-3">
+          <Image
+            src={logo}
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 shrink-0 rounded-xl"
+            aria-hidden
+          />
+          <h2 className="text-xl font-bold text-[#25297F]">Club interest form</h2>
+        </div>
+        <p className="mt-2 text-sm text-slate-600 sm:pl-[3.25rem]">
           Pick one or more technical fields, or indicate you are not interested in
           any club right now.
         </p>
@@ -198,17 +236,38 @@ export default function InterestForm() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#3035B5]">
             Personal
           </p>
-          <Field id="name" label="Full name">
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              autoComplete="name"
-              placeholder="As on your university ID"
-              className={inputClass}
-            />
-          </Field>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field id="name" label="Full name">
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                autoComplete="name"
+                placeholder="As on your university ID"
+                className={inputClass}
+              />
+            </Field>
+            <Field
+              id="phone_number"
+              label="Phone number"
+              hint="Active mobile number so we can reach you."
+            >
+              <input
+                id="phone_number"
+                name="phone_number"
+                type="text"
+                required
+                autoComplete="tel"
+                inputMode="numeric"
+                pattern="[0-9]{10,12}"
+                title="Enter 10 to 12 digits only"
+                placeholder="e.g. 9876543210"
+                className={inputClass}
+                onInput={onPhoneInput}
+              />
+            </Field>
+          </div>
         </section>
 
         <section className="space-y-5">
@@ -234,6 +293,9 @@ export default function InterestForm() {
                 required
                 placeholder="University enrollment no."
                 className={inputClass}
+                onInput={onEnrollmentInput}
+                autoCapitalize="characters"
+                spellCheck={false}
               />
             </Field>
             <Field

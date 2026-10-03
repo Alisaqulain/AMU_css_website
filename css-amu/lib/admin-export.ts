@@ -37,6 +37,7 @@ export function exportClubInterestsCsv(
     name: string;
     course: string;
     enrollment_number: string;
+    phone_number: string;
     semester: string;
     club_name: string;
     not_interested: boolean | null;
@@ -51,6 +52,7 @@ export function exportClubInterestsCsv(
       "Name",
       "Course",
       "Enrollment",
+      "Phone",
       "Semester",
       "Clubs",
       "Not interested",
@@ -61,6 +63,7 @@ export function exportClubInterestsCsv(
       r.name,
       r.course,
       r.enrollment_number,
+      r.phone_number,
       r.semester,
       r.club_name,
       r.not_interested ? "Yes" : "No",
@@ -75,6 +78,7 @@ export function exportClubInterestsPdf(
     name: string;
     course: string;
     enrollment_number: string;
+    phone_number: string;
     semester: string;
     club_name: string;
     created_at: string;
@@ -87,12 +91,13 @@ export function exportClubInterestsPdf(
   autoTable(doc, {
     startY: 20,
     head: [
-      ["Name", "Course", "Enrollment", "Sem", "Clubs", "Submitted"],
+      ["Name", "Course", "Enrollment", "Phone", "Sem", "Clubs", "Submitted"],
     ],
     body: rows.map((r) => [
       r.name,
       r.course,
       r.enrollment_number,
+      r.phone_number,
       r.semester,
       r.club_name,
       formatDate(r.created_at),
