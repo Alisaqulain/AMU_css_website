@@ -23,33 +23,21 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-16 overflow-hidden bg-[#0c1029] text-white">
-      <div className="h-1 w-full bg-linear-to-r from-[#3035B5] via-[#5B2D91] to-[#3CA049]" />
-
-      <div className="relative border-b border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-6 py-12 lg:flex-row lg:items-center lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200/90">
-              Clubs
-            </p>
-            <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
-              Join a club or the core team
-            </h2>
-          </div>
+    <footer className="mt-16 border-t-4 border-[#3035B5] bg-[#1a1f3d] text-white">
+      <div className="border-b border-white/10">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 px-6 py-8 lg:flex-row lg:items-center lg:px-8">
+          <p className="text-lg font-semibold">Join a club or the core team</p>
           <Link
             href="/interest"
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-bold text-[#3035B5] transition hover:bg-blue-50"
+            className="inline-flex items-center gap-2 bg-white px-5 py-2.5 text-sm font-semibold text-[#3035B5] hover:bg-[#f0f0f0]"
           >
-            Open interest form
+            Interest form
             <FaArrowRight className="h-3.5 w-3.5" aria-hidden />
           </Link>
         </div>
       </div>
 
-      <div className="pointer-events-none absolute -left-32 top-40 h-80 w-80 rounded-full bg-[#3035B5]/15 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-[#3CA049]/10 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3">

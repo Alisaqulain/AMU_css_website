@@ -24,46 +24,44 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <section className="relative overflow-hidden border-b border-slate-200/80 bg-white">
-        <div className="pointer-events-none absolute inset-0 mesh-gradient" />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-8">
-          <FadeIn className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#3035B5]">
+      <section className="page-band">
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8 lg:py-16">
+          <FadeIn>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#5b2d91]">
               About the society
             </p>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-[#25297F] sm:text-5xl">
+            <h1 className="font-display mt-2 text-4xl font-semibold text-[#1a1f3d] sm:text-5xl">
               Computer Science Society
             </h1>
-            <p className="mt-3 text-lg font-medium text-[#5B2D91]">
+            <p className="mt-3 text-base font-medium text-[#5b2d91]">
               {cssIdentity.affiliation}
             </p>
-            <p className="mt-6 text-slate-600 leading-8">
+            <p className="mt-5 text-[#4a5068] leading-7">
               Formerly the <strong>Area of Dominant Coders (ADC)</strong>. Sharing
               computer science across the Faculty of Science since December 2018.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/team"
-                className="rounded-xl bg-[#3035B5] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#25297F]"
-              >
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/team" className="btn-primary">
                 Current student team
               </Link>
-              <Link
-                href="/events"
-                className="rounded-xl border border-slate-300 px-5 py-2.5 text-sm font-semibold text-[#25297F] hover:border-[#3035B5]"
-              >
+              <Link href="/events" className="btn-secondary">
                 Events & hackathons
               </Link>
             </div>
           </FadeIn>
-          <AnimatedLogo size="lg" className="hidden lg:block" />
+          <FadeIn delay={0.08} className="flex justify-center lg:justify-end">
+            <AnimatedLogo size="lg" />
+          </FadeIn>
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="border-b border-[#e2e0d8] py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <SectionHeader eyebrow="Introduction" title="What is CSS?" />
-          <FadeIn delay={0.08} className="mt-10 max-w-4xl space-y-6 text-lg leading-8 text-slate-600">
+          <FadeIn
+            delay={0.06}
+            className="mt-8 columns-1 gap-x-10 text-base leading-7 text-[#4a5068] md:text-lg lg:columns-2 [&_p]:mb-6 [&_p]:break-inside-avoid"
+          >
             {introductionParagraphs.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
             ))}
@@ -71,28 +69,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-slate-200/80 bg-slate-50 py-20">
+      <section className="border-b border-[#e2e0d8] bg-[#faf9f6] py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <SectionHeader
             eyebrow="History"
             title="A walk through the history"
             description="From ADC in 2018 to university-recognized Computer Science Society."
           />
-          <div className="mt-14 space-y-12">
+          <div className="mt-10 space-y-6">
             {historyMilestones.map((item, index) => (
-              <FadeIn key={item.id} delay={index * 0.05}>
-                <article
-                  className="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm lg:p-10"
-                >
-                  <div className="flex flex-wrap items-baseline gap-4">
-                    <span className="rounded-full bg-[#3035B5] px-4 py-1 text-sm font-bold text-white">
+              <FadeIn key={item.id} delay={index * 0.04}>
+                <article className="card-interactive p-6 lg:p-8">
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <span className="bg-[#3035B5] px-3 py-1 text-xs font-bold text-white">
                       {item.period}
                     </span>
-                    <h3 className="text-2xl font-bold text-[#25297F]">
+                    <h3 className="font-display text-xl font-semibold text-[#1a1f3d]">
                       {item.title}
                     </h3>
                   </div>
-                  <div className="mt-6 space-y-4 text-slate-600 leading-8">
+                  <div className="mt-4 space-y-3 text-sm leading-7 text-[#4a5068] md:text-base">
                     {item.body.map((para) => (
                       <p key={para.slice(0, 48)}>{para}</p>
                     ))}
@@ -104,57 +100,58 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="border-b border-[#e2e0d8] py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div>
-              <SectionHeader eyebrow="Mission" title="Objectives" />
-              <FadeIn delay={0.06} className="mt-8">
-                <ul className="space-y-3">
-                  {societyObjectives.map((item, i) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm leading-6 text-slate-700"
-                    >
-                      <span className="font-bold text-[#3035B5]">{i + 1}.</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </FadeIn>
-            </div>
-            <div>
-              <SectionHeader eyebrow="Impact" title="Outcomes for students" />
-              <FadeIn delay={0.1} className="mt-8">
-                <ul className="space-y-3">
-                  {societyOutcomes.map((item) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 text-sm leading-6 text-slate-700"
-                    >
-                      <span className="mt-1 text-[#3CA049]">✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </FadeIn>
-            </div>
-          </div>
+          <SectionHeader eyebrow="Mission" title="Objectives" />
+          <FadeIn delay={0.06} className="mt-8">
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {societyObjectives.map((item, i) => (
+                <li
+                  key={item}
+                  className="flex gap-3 border border-[#e2e0d8] bg-[#faf9f6] px-4 py-3 text-sm leading-6 text-[#4a5068]"
+                >
+                  <span className="font-bold text-[#3035B5]">{i + 1}.</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="border-t border-slate-200/80 bg-slate-50 py-20">
+      <section className="border-b border-[#e2e0d8] bg-[#faf9f6] py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <SectionHeader eyebrow="Impact" title="Outcomes for students" />
+          <FadeIn delay={0.06} className="mt-8">
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {societyOutcomes.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-3 border border-[#e2e0d8] bg-white px-4 py-3 text-sm leading-6 text-[#4a5068]"
+                >
+                  <span className="mt-0.5 shrink-0 font-bold text-[#3CA049]">
+                    ✓
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className="border-b border-[#e2e0d8] py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <SectionHeader
             eyebrow="Governance"
             title="How the society operates"
           />
-          <FadeIn delay={0.06} className="mt-10">
-            <ol className="grid gap-4 md:grid-cols-2">
+          <FadeIn delay={0.06} className="mt-8">
+            <ol className="grid gap-3 sm:grid-cols-2">
               {societyOperations.map((step, i) => (
                 <li
                   key={step}
-                  className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600"
+                  className="card-interactive flex gap-4 p-4 text-sm leading-7 text-[#4a5068]"
                 >
                   <span
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5B2D91]/10 text-sm font-bold text-[#5B2D91]"
@@ -169,81 +166,99 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="border-b border-[#e2e0d8] bg-[#faf9f6] py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <SectionHeader
             eyebrow="Committee"
             title="Composition of the society"
             description="Faculty mentors and the student roles that run each academic session."
           />
-          <div className="mt-12 grid gap-10 lg:grid-cols-2">
+          <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-start">
             <FadeIn>
-              <h3 className="text-lg font-bold text-[#25297F]">Faculty members</h3>
-              <ul className="mt-6 space-y-3">
+              <h3 className="text-base font-semibold text-[#1a1f3d]">
+                Faculty members
+              </h3>
+              <ul className="mt-4 space-y-2">
                 {facultyCommitteeRoles.map((member) => (
                   <li
                     key={member.name}
-                    className="flex flex-wrap items-baseline justify-between gap-2 rounded-xl border border-slate-200 px-4 py-3"
+                    className="flex flex-wrap items-baseline justify-between gap-2 border border-[#e2e0d8] bg-white px-4 py-3"
                   >
-                    <span className="font-medium text-[#25297F]">{member.name}</span>
+                    <span className="font-medium text-[#1a1f3d]">
+                      {member.name}
+                    </span>
                     <span className="text-sm text-[#3035B5]">{member.role}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 rounded-2xl border border-[#3035B5]/20 bg-[#3035B5]/5 p-6">
-                <p className="text-sm font-semibold uppercase tracking-wider text-[#3035B5]">
-                  Convener
-                </p>
-                <p className="mt-2 text-xl font-bold text-[#25297F]">
-                  {convenerProfile.name}
-                </p>
-                <p className="mt-1 text-sm text-slate-600">{convenerProfile.title}</p>
-                <p className="text-sm text-slate-500">{convenerProfile.department}</p>
-              </div>
             </FadeIn>
-            <FadeIn delay={0.08}>
-              <h3 className="text-lg font-bold text-[#25297F]">Student roles</h3>
-              <p className="mt-2 text-sm text-slate-600">
+            <FadeIn delay={0.06}>
+              <h3 className="text-base font-semibold text-[#1a1f3d]">
+                Student roles
+              </h3>
+              <p className="mt-2 text-sm text-[#4a5068]">
                 Each session, students serve in roles such as:
               </p>
-              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+              <ul className="mt-4 space-y-2">
                 {studentCommitteeRoles.map((role) => (
                   <li
                     key={role}
-                    className="rounded-xl bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700"
+                    className="border border-[#e2e0d8] bg-white px-4 py-3 text-sm font-medium text-[#4a5068]"
                   >
                     {role}
                   </li>
                 ))}
               </ul>
-              <p className="mt-8 text-sm text-slate-600">
+              <p className="mt-6 text-sm text-[#4a5068]">
                 See the{" "}
-                <Link href="/team" className="font-semibold text-[#3035B5] hover:underline">
+                <Link
+                  href="/team"
+                  className="font-semibold text-[#3035B5] hover:underline"
+                >
                   Team page
                 </Link>{" "}
-                for the current session&apos;s student coordinators, mentors, and domain
-                leads.
+                for the current session&apos;s coordinators and domain leads.
               </p>
             </FadeIn>
           </div>
+          <FadeIn delay={0.1} className="mt-8">
+            <div className="border border-[#3035B5]/25 bg-[#3035B5]/5 p-6 lg:max-w-xl">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#3035B5]">
+                Convener
+              </p>
+              <p className="mt-2 text-lg font-semibold text-[#1a1f3d]">
+                {convenerProfile.name}
+              </p>
+              <p className="mt-1 text-sm text-[#4a5068]">
+                {convenerProfile.title}
+              </p>
+              <p className="text-sm text-[#6b7280]">
+                {convenerProfile.department}
+              </p>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="border-t border-slate-200/80 bg-[#25297F] py-16 text-white">
+      <section className="bg-[#1a1f3d] py-14 text-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-2">
+          <div className="grid gap-10 sm:grid-cols-2">
             <div>
-              <h2 className="text-2xl font-bold">Contact</h2>
-              <p className="mt-4 text-blue-100 leading-7">{cssIdentity.address}</p>
+              <h2 className="font-display text-2xl font-semibold">Contact</h2>
+              <p className="mt-4 text-sm leading-7 text-[#c5c9e8]">
+                {cssIdentity.address}
+              </p>
               <a
                 href={`mailto:${cssIdentity.email}`}
-                className="mt-4 inline-block font-semibold text-white hover:text-blue-200"
+                className="mt-4 inline-block text-sm font-semibold text-white hover:underline"
               >
                 {cssIdentity.email}
               </a>
             </div>
             <div>
-              <h2 className="text-2xl font-bold">AMU quick links</h2>
+              <h2 className="font-display text-2xl font-semibold">
+                AMU quick links
+              </h2>
               <ul className="mt-4 grid gap-2 sm:grid-cols-2">
                 {amuPortalLinks.map((link) => (
                   <li key={link.href}>
@@ -251,7 +266,7 @@ export default function AboutPage() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-blue-100 hover:text-white hover:underline"
+                      className="text-sm text-[#c5c9e8] hover:text-white hover:underline"
                     >
                       {link.label} ↗
                     </a>

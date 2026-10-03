@@ -4,7 +4,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 
 export default function FacultyLeadsSection() {
   return (
-    <section className="border-b border-slate-200/80 bg-slate-50/80 py-16 sm:py-20">
+    <section className="border-b border-[#e2e0d8] bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16">
           <SectionHeader

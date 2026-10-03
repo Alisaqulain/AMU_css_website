@@ -58,7 +58,7 @@ export default function HomeEventsPreview() {
   }, []);
 
   return (
-    <section className="border-t border-slate-200/80 bg-linear-to-b from-slate-50 to-white py-24">
+    <section className="border-t border-[#e2e0d8] bg-white py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <SectionHeader
@@ -78,19 +78,16 @@ export default function HomeEventsPreview() {
           {events.map((event, index) => (
             <FadeIn key={event.id} delay={index * 0.08} as="article">
               <article
-                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="card-interactive group relative flex h-full flex-col border-l-4 p-6"
+                style={{ borderLeftColor: accents[index % accents.length] }}
               >
-                <div
-                  className="absolute left-0 top-0 h-1 w-full opacity-80"
-                  style={{ backgroundColor: accents[index % accents.length] }}
-                />
                 {event.is_coming_soon && (
                   <div className="absolute right-5 top-5">
                     <ComingSoonBadge />
                   </div>
                 )}
                 <span className="text-sm font-bold text-[#3035B5]">{event.year}</span>
-                <h3 className="mt-8 text-2xl font-bold text-[#25297F] pr-2">
+                <h3 className="font-display mt-4 text-xl font-semibold text-[#1a1f3d] pr-2">
                   {event.title}
                 </h3>
                 <p className="mt-4 flex-1 leading-7 text-slate-600">

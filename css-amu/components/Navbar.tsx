@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import AnimatedLogo from "@/components/AnimatedLogo";
 
 const navLinks = [
@@ -15,16 +14,8 @@ const navLinks = [
 ];
 
 const joinOptions = [
-  {
-    href: "/interest",
-    title: "Join a club",
-    description: "AI/ML, Web Dev, Cybersecurity, DSA",
-  },
-  {
-    href: "/membershipForm",
-    title: "Join the team",
-    description: "Core team & society roles",
-  },
+  { href: "/interest", title: "Join a club", description: "AI/ML, Web, Cyber, DSA" },
+  { href: "/membershipForm", title: "Join the team", description: "Core roles" },
 ];
 
 function NavLink({
@@ -47,10 +38,10 @@ function NavLink({
       <Link
         href={href}
         onClick={onClick}
-        className={`block rounded-xl px-4 py-3.5 text-base font-medium transition ${
+        className={`block border-l-2 py-3 pl-4 text-base font-medium ${
           active
-            ? "bg-[#3035B5]/10 text-[#3035B5]"
-            : "text-slate-700 hover:bg-slate-100"
+            ? "border-[#3035B5] text-[#3035B5]"
+            : "border-transparent text-[#4a5068] hover:border-[#c9c6bc]"
         }`}
       >
         {name}
@@ -62,20 +53,13 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
-      className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors lg:px-4 ${
+      className={`border-b-2 px-2 py-2 text-sm font-medium transition-colors lg:px-3 ${
         active
-          ? "text-[#3035B5]"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+          ? "border-[#3035B5] text-[#3035B5]"
+          : "border-transparent text-[#4a5068] hover:text-[#1a1f3d]"
       }`}
     >
       {name}
-      {active && (
-        <motion.span
-          layoutId="nav-pill-desktop"
-          className="absolute inset-0 -z-10 rounded-full bg-[#3035B5]/10"
-          transition={{ type: "spring", stiffness: 380, damping: 30 }}
-        />
-      )}
     </Link>
   );
 }
@@ -84,9 +68,6 @@ function JoinButton({ onNavigate }: { onNavigate?: () => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const joinActive =
-    pathname.startsWith("/interest") ||
-    pathname.startsWith("/membershipForm");
 
   useEffect(() => {
     if (!open) return;
@@ -103,11 +84,6 @@ function JoinButton({ onNavigate }: { onNavigate?: () => void }) {
     setOpen(false);
   }, [pathname]);
 
-  const pick = (href: string) => {
-    setOpen(false);
-    onNavigate?.();
-  };
-
   return (
     <div ref={ref} className="relative">
       <button
@@ -115,55 +91,35 @@ function JoinButton({ onNavigate }: { onNavigate?: () => void }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className={`flex items-center justify-center gap-2 rounded-xl bg-[#3035B5] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#3035B5]/20 transition hover:bg-[#25297F] sm:px-4 ${
-          joinActive ? "ring-2 ring-[#3035B5]/30 ring-offset-2" : ""
-        }`}
+        className="btn-primary py-2.5 text-sm"
       >
         Join
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-xs opacity-90"
-          aria-hidden
-        >
-          ▼
-        </motion.span>
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            role="menu"
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="absolute right-0 z-50 mt-2 w-[min(calc(100vw-2rem),17rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60"
-          >
-            {joinOptions.map((opt) => {
-              const active = pathname.startsWith(opt.href);
-              return (
-                <Link
-                  key={opt.href}
-                  href={opt.href}
-                  role="menuitem"
-                  onClick={() => pick(opt.href)}
-                  className={`block border-b border-slate-100 px-4 py-4 last:border-0 transition hover:bg-slate-50 ${
-                    active ? "bg-[#3035B5]/5" : ""
-                  }`}
-                >
-                  <span className="font-semibold text-[#25297F]">
-                    {opt.title}
-                  </span>
-                  <span className="mt-0.5 block text-xs leading-snug text-slate-500">
-                    {opt.description}
-                  </span>
-                </Link>
-              );
-            })}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 z-50 mt-2 w-52 border border-[#e2e0d8] bg-white shadow-md"
+        >
+          {joinOptions.map((opt) => (
+            <Link
+              key={opt.href}
+              href={opt.href}
+              role="menuitem"
+              onClick={() => {
+                setOpen(false);
+                onNavigate?.();
+              }}
+              className="block border-b border-[#eee] px-4 py-3 last:border-0 hover:bg-[#faf9f6]"
+            >
+              <span className="font-semibold text-[#1a1f3d]">{opt.title}</span>
+              <span className="mt-0.5 block text-xs text-[#6b7280]">
+                {opt.description}
+              </span>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -181,25 +137,25 @@ export default function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/95 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 border-b border-[#e2e0d8] bg-[#faf9f6]/95">
       <nav className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3"
         >
-          <AnimatedLogo size="sm" className="!h-9 !w-9 shrink-0 sm:!h-10 sm:!w-10" />
+          <AnimatedLogo size="sm" className="!h-9 !w-9 shrink-0 border-0 bg-transparent p-0 sm:!h-10 sm:!w-10" />
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold leading-tight text-slate-900">
+            <p className="truncate text-sm font-bold leading-tight text-[#1a1f3d]">
               <span className="sm:hidden">CSS</span>
               <span className="hidden sm:inline">Computer Science Society</span>
             </p>
-            <p className="truncate text-[10px] text-slate-500 sm:text-[11px]">
+            <p className="truncate text-[10px] text-[#6b7280] sm:text-[11px]">
               AMU
             </p>
           </div>
         </Link>
 
-        <div className="hidden flex-1 items-center justify-center gap-0.5 lg:flex">
+        <div className="hidden flex-1 items-center justify-center gap-1 lg:flex">
           {navLinks.map((link) => (
             <NavLink key={link.href} href={link.href} name={link.name} />
           ))}
@@ -211,7 +167,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-lg text-slate-700 lg:hidden"
+            className="flex h-10 w-10 items-center justify-center border border-[#e2e0d8] bg-white text-lg text-[#1a1f3d] lg:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
           >
@@ -220,40 +176,29 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.button
-              type="button"
-              aria-label="Close menu overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-slate-900/40 lg:hidden"
-              onClick={() => setIsOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25 }}
-              className="relative z-50 max-h-[min(70dvh,24rem)] overflow-y-auto border-b border-slate-200 bg-white px-4 py-4 shadow-lg lg:hidden"
-            >
-              <nav className="mx-auto flex max-w-lg flex-col gap-1">
-                {navLinks.map((link) => (
-                  <NavLink
-                    key={link.href}
-                    href={link.href}
-                    name={link.name}
-                    mobile
-                    onClick={() => setIsOpen(false)}
-                  />
-                ))}
-              </nav>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="fixed inset-0 z-40 bg-black/30 lg:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="relative z-50 border-b border-[#e2e0d8] bg-white px-4 py-4 lg:hidden">
+            <nav className="mx-auto flex max-w-lg flex-col gap-1">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.href}
+                  href={link.href}
+                  name={link.name}
+                  mobile
+                  onClick={() => setIsOpen(false)}
+                />
+              ))}
+            </nav>
+          </div>
+        </>
+      )}
     </header>
   );
 }

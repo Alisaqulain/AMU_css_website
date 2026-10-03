@@ -20,7 +20,7 @@ export default function TeamCard({
 }) {
   return (
     <article
-      className={`group h-full overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#3035B5]/30 hover:shadow-xl ${className}`}
+      className={`card-interactive group h-full overflow-hidden ${className}`}
     >
       <div className="relative aspect-4/5 overflow-hidden bg-slate-100">
         <Image
@@ -28,10 +28,8 @@ export default function TeamCard({
           alt={name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
-
-        <div className="absolute inset-0 bg-linear-to-t from-[#25297F]/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         <div
           className="absolute left-0 top-0 h-1 w-full"
           style={{ backgroundColor: accent }}

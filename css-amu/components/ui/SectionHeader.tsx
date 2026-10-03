@@ -18,21 +18,27 @@ export default function SectionHeader({
   const alignClass = align === "center" ? "text-center mx-auto" : "";
 
   return (
-    <FadeIn className={`max-w-3xl ${alignClass} ${className}`}>
-      <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#3035B5]">
+    <FadeIn className={`w-full ${alignClass} ${className}`}>
+      <p className="text-xs font-semibold uppercase tracking-wide text-[#5b2d91]">
         {eyebrow}
       </p>
-      <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#25297F] sm:text-4xl lg:text-5xl">
+      <h2
+        className="font-display mt-2 text-3xl font-semibold leading-tight text-[#1a1f3d] sm:text-4xl"
+      >
         {title}
       </h2>
       {description && (
-        <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
+        <p
+          className={`mt-4 max-w-3xl text-base leading-7 text-[#4a5068] ${
+            align === "center" ? "mx-auto" : ""
+          }`}
+        >
+          {description}
+        </p>
       )}
-      <div
-        className={`mt-6 h-1 w-14 rounded-full bg-linear-to-r from-[#3035B5] via-[#5B2D91] to-[#3CA049] ${
-          align === "center" ? "mx-auto" : ""
-        }`}
-      />
+      {align === "left" && (
+        <div className="mt-5 h-px w-16 bg-[#3035B5]" aria-hidden />
+      )}
     </FadeIn>
   );
 }

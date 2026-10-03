@@ -10,47 +10,44 @@ const icons = [FaUsers, FaRocket, FaTrophy, FaCompass];
 
 export default function WhyJoinSection() {
   return (
-    <section className="border-t border-slate-200/80 bg-slate-50 py-24">
+    <section className="border-t border-[#e2e0d8] bg-[#faf9f6] py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-          <SectionHeader
-            eyebrow="Student life"
-            title="Why students join CSS"
-            description="First year or final year, you can join a club or help run an event."
-          />
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+          <div>
+            <SectionHeader
+              eyebrow="Student life"
+              title="Why students join CSS"
+              description="First year or final year, you can join a club or help run an event."
+            />
+            <FadeIn className="mt-6 flex flex-wrap gap-3">
+              <Link href="/team" className="btn-secondary">
+                Meet the team
+              </Link>
+              <Link href="/events" className="btn-primary">
+                Browse events
+              </Link>
+            </FadeIn>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {whyJoin.map((item, index) => {
               const Icon = icons[index];
               return (
                 <FadeIn key={item.title} delay={index * 0.06}>
-                  <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#3035B5]/10 text-[#3035B5]">
-                      <Icon className="h-5 w-5" aria-hidden />
-                    </div>
-                    <h3 className="mt-4 font-bold text-[#25297F]">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+                  <div className="card-interactive p-5">
+                    <Icon className="h-5 w-5 text-[#3035B5]" aria-hidden />
+                    <h3 className="mt-3 font-semibold text-[#1a1f3d]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-[#4a5068]">
+                      {item.body}
+                    </p>
                   </div>
                 </FadeIn>
               );
             })}
           </div>
         </div>
-
-        <FadeIn className="mt-12 flex flex-wrap gap-4">
-          <Link
-            href="/team"
-            className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-[#25297F] hover:border-[#3035B5]"
-          >
-            Meet the team
-          </Link>
-          <Link
-            href="/events"
-            className="rounded-xl bg-[#3035B5] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#25297F]"
-          >
-            Browse events
-          </Link>
-        </FadeIn>
       </div>
     </section>
   );

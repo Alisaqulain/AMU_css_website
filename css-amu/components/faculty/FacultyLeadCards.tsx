@@ -17,7 +17,7 @@ export default function FacultyLeadCards({
         {facultyLeadCards.map((member) => (
           <article
             key={member.role}
-            className="flex items-center gap-4 rounded-2xl border border-[#3035B5]/20 bg-white p-4 shadow-sm"
+            className="card-interactive flex items-center gap-4 p-4"
           >
             <div className="relative h-[4.5rem] w-[4.5rem] shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:h-20 sm:w-20">
               <Image

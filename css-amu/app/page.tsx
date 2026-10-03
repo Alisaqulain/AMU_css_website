@@ -22,7 +22,7 @@ export default function Home() {
       <StatsStrip />
       <FacultyLeadsSection />
 
-      <section className="border-b border-slate-200/80 bg-white py-24">
+      <section className="border-b border-[#e2e0d8] bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20 lg:items-center">
             <SectionHeader
@@ -43,7 +43,7 @@ export default function Home() {
                   ].map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                      className="flex items-center gap-2 border border-[#e2e0d8] bg-[#faf9f6] px-4 py-3 transition-colors hover:border-[#3035B5]/40 hover:bg-white"
                     >
                       <span className="text-[#3CA049]">✓</span>
                       {item}
@@ -78,35 +78,23 @@ export default function Home() {
       <WhyJoinSection />
       <FAQSection />
 
-      <section className="bg-slate-50 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <section className="border-t border-[#e2e0d8] bg-[#faf9f6] py-16">
+        <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
           <FadeIn>
-            <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#25297F] via-[#3035B5] to-[#5B2D91] px-8 py-16 text-center text-white sm:px-16">
-              <div className="pointer-events-none absolute inset-0 pattern-dots opacity-20" />
-              <p className="relative text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
-                Join a club
-              </p>
-              <h2 className="relative mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                Club interest form
-              </h2>
-              <p className="relative mx-auto mt-5 max-w-2xl text-lg leading-8 text-blue-100">
-                AI/ML, Web Development, Cybersecurity, or DSA. Submit the form and
-                the domain lead will contact you.
-              </p>
-              <div className="relative mt-10 flex flex-wrap justify-center gap-4">
-                <Link
-                  href="/interest"
-                  className="inline-flex rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-[#3035B5] transition hover:bg-blue-50 hover:shadow-lg"
-                >
-                  Club interest form
-                </Link>
-                <Link
-                  href="/membershipForm"
-                  className="inline-flex rounded-xl border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10"
-                >
-                  Core team recruitment
-                </Link>
-              </div>
+            <h2 className="font-display text-3xl font-semibold text-[#1a1f3d]">
+              Club interest form
+            </h2>
+            <p className="mt-4 text-[#4a5068]">
+              AI/ML, Web Development, Cybersecurity, or DSA. Submit once; a domain
+              lead will reply.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link href="/interest" className="btn-primary">
+                Open form
+              </Link>
+              <Link href="/membershipForm" className="btn-secondary">
+                Core team recruitment
+              </Link>
             </div>
           </FadeIn>
         </div>
