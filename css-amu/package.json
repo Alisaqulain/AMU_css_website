@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "og:generate": "node scripts/generate-og-share.mjs",
+    "build:og": "next build && node scripts/generate-og-share.mjs",
     "start": "next start",
     "lint": "eslint"
   },

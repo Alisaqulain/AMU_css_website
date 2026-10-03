@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const DEFAULT_SITE_URL = "https://cssamu.in";
+const DEFAULT_SITE_URL = "https://www.amucss.in";
 
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -8,8 +8,13 @@ export function getSiteUrl(): string {
     try {
       return new URL(fromEnv).origin;
     } catch {
-      return DEFAULT_SITE_URL;
+      /* fall through */
     }
+  }
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) {
+    const host = vercel.replace(/^https?:\/\//, "");
+    return `https://${host}`;
   }
   return DEFAULT_SITE_URL;
 }
@@ -38,7 +43,8 @@ export function absoluteUrl(path = "/"): string {
 /** Standard share card (1200×630) — used by WhatsApp, Facebook, LinkedIn, X, etc. */
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
-const OG_IMAGE_PATH = "/opengraph-image";
+/** Static file — WhatsApp/Facebook fetch this reliably (same host as the site). */
+const OG_IMAGE_PATH = "/og-share.png";
 
 export function openGraphImageUrl(): string {
   return absoluteUrl(OG_IMAGE_PATH);
