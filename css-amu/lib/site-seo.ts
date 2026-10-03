@@ -1,20 +1,29 @@
 import type { Metadata } from "next";
 
-const DEFAULT_SITE_URL = "https://www.amucss.in";
+/** Canonical public URL (no www) — used for og:url, canonical, sitemap, og:image. */
+const DEFAULT_SITE_URL = "https://amucss.in";
+
+function normalizeSiteOrigin(input: string): string {
+  try {
+    const url = new URL(input);
+    if (url.hostname === "www.amucss.in") {
+      url.hostname = "amucss.in";
+    }
+    return url.origin;
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
 
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (fromEnv) {
-    try {
-      return new URL(fromEnv).origin;
-    } catch {
-      /* fall through */
-    }
+    return normalizeSiteOrigin(fromEnv);
   }
   const vercel = process.env.VERCEL_URL?.trim();
   if (vercel) {
     const host = vercel.replace(/^https?:\/\//, "");
-    return `https://${host}`;
+    return normalizeSiteOrigin(`https://${host}`);
   }
   return DEFAULT_SITE_URL;
 }
