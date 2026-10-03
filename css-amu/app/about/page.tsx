@@ -15,11 +15,14 @@ import {
   studentCommitteeRoles,
 } from "@/lib/css-official";
 
-export const metadata = {
-  title: "About CSS | Computer Science Society, AMU",
+import { pageMetadata } from "@/lib/site-seo";
+
+export const metadata = pageMetadata({
+  title: "About CSS",
   description:
     "Introduction, history, objectives, and governance of the Computer Science Society, Faculty of Science, Aligarh Muslim University.",
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

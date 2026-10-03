@@ -1,5 +1,12 @@
 import Link from "next/link";
 import { introductionParagraphs } from "@/lib/css-official";
+import {
+  absoluteUrl,
+  defaultDescription,
+  sharedOpenGraph,
+  sharedTwitter,
+  siteName,
+} from "@/lib/site-seo";
 import HeroSection from "@/components/home/HeroSection";
 import EventMarquee from "@/components/home/EventMarquee";
 import StatsStrip from "@/components/home/StatsStrip";
@@ -13,6 +20,21 @@ import WhyJoinSection from "@/components/home/WhyJoinSection";
 import FAQSection from "@/components/home/FAQSection";
 import FadeIn from "@/components/motion/FadeIn";
 import SectionHeader from "@/components/ui/SectionHeader";
+
+export const metadata = {
+  title: { absolute: siteName },
+  description: defaultDescription,
+  alternates: { canonical: absoluteUrl("/") },
+  openGraph: sharedOpenGraph({
+    title: siteName,
+    description: defaultDescription,
+    url: absoluteUrl("/"),
+  }),
+  twitter: sharedTwitter({
+    title: siteName,
+    description: defaultDescription,
+  }),
+};
 
 export default function Home() {
   return (

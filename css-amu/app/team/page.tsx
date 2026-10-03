@@ -4,6 +4,14 @@ import TeamCategoryNav from "@/components/team/TeamCategoryNav";
 import TeamCard, { teamCardWidthClass } from "@/components/team/TeamCard";
 import FadeIn from "@/components/motion/FadeIn";
 import { teamCategories } from "@/lib/team";
+import { pageMetadata } from "@/lib/site-seo";
+
+export const metadata = pageMetadata({
+  title: "Team",
+  description:
+    "Faculty advisors and student leads of the Computer Science Society, AMU — AI/ML, Web Dev, Cybersecurity, and DSA.",
+  path: "/team",
+});
 
 export default function TeamPage() {
   return (

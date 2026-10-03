@@ -2,6 +2,14 @@ import ContactForm from "@/components/contact/ContactForm";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import FadeIn from "@/components/motion/FadeIn";
 import { cssIdentity } from "@/lib/css-official";
+import { pageMetadata } from "@/lib/site-seo";
+
+export const metadata = pageMetadata({
+  title: "Contact CSS",
+  description:
+    "Get in touch with the Computer Science Society, Department of Computer Science, Aligarh Muslim University.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

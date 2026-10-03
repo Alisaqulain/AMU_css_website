@@ -2,6 +2,14 @@ import EventsGrid from "@/components/events/EventsGrid";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import FadeIn from "@/components/motion/FadeIn";
 import { initiatives } from "@/lib/site-content";
+import { pageMetadata } from "@/lib/site-seo";
+
+export const metadata = pageMetadata({
+  title: "Events & highlights",
+  description:
+    "Hackathons, workshops, CTFs, and club events from CSS AMU — AMUHACKS and more at Aligarh Muslim University.",
+  path: "/events",
+});
 
 export default function EventsPage() {
   return (

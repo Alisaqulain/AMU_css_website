@@ -35,6 +35,65 @@ export function absoluteUrl(path = "/"): string {
   return `${base}${normalized}`;
 }
 
+/** Standard share card (1200×630) — used by WhatsApp, Facebook, LinkedIn, X, etc. */
+export const OG_IMAGE_WIDTH = 1200;
+export const OG_IMAGE_HEIGHT = 630;
+const OG_IMAGE_PATH = "/opengraph-image";
+
+export function openGraphImageUrl(): string {
+  return absoluteUrl(OG_IMAGE_PATH);
+}
+
+export function openGraphImageMeta(alt?: string) {
+  const imageAlt = alt ?? `${siteShortName} — Aligarh Muslim University`;
+  const url = openGraphImageUrl();
+  return [
+    {
+      url,
+      secureUrl: url,
+      width: OG_IMAGE_WIDTH,
+      height: OG_IMAGE_HEIGHT,
+      alt: imageAlt,
+      type: "image/png",
+    },
+  ];
+}
+
+export function sharedOpenGraph({
+  title,
+  description,
+  url,
+}: {
+  title: string;
+  description: string;
+  url: string;
+}) {
+  return {
+    type: "website" as const,
+    locale: "en_IN",
+    url,
+    siteName: siteShortName,
+    title,
+    description,
+    images: openGraphImageMeta(title),
+  };
+}
+
+export function sharedTwitter({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  return {
+    card: "summary_large_image" as const,
+    title,
+    description,
+    images: [openGraphImageUrl()],
+  };
+}
+
 export const rootMetadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
@@ -51,28 +110,15 @@ export const rootMetadata: Metadata = {
     address: false,
     telephone: false,
   },
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
+  openGraph: sharedOpenGraph({
+    title: siteName,
+    description: defaultDescription,
     url: getSiteUrl(),
-    siteName: siteShortName,
+  }),
+  twitter: sharedTwitter({
     title: siteName,
     description: defaultDescription,
-    images: [
-      {
-        url: "/cslogo.png",
-        width: 512,
-        height: 512,
-        alt: `${siteShortName} logo`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary",
-    title: siteName,
-    description: defaultDescription,
-    images: ["/cslogo.png"],
-  },
+  }),
   robots: {
     index: true,
     follow: true,
@@ -105,18 +151,8 @@ export function pageMetadata({
     description,
     keywords: keywords ?? defaultKeywords,
     alternates: { canonical: url },
-    openGraph: {
-      title,
-      description,
-      url,
-      type: "website",
-      images: [{ url: "/cslogo.png", alt: `${siteShortName} logo` }],
-    },
-    twitter: {
-      title,
-      description,
-      images: ["/cslogo.png"],
-    },
+    openGraph: sharedOpenGraph({ title, description, url }),
+    twitter: sharedTwitter({ title, description }),
   };
 }
 
