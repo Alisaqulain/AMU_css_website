@@ -111,6 +111,11 @@ export function sharedTwitter({
 
 export const rootMetadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
+  icons: {
+    icon: [{ url: "/cslogo.png", type: "image/png" }],
+    shortcut: "/cslogo.png",
+    apple: "/cslogo.png",
+  },
   title: {
     default: siteName,
     template: `%s | ${siteShortName}`,

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import FadeIn from "@/components/motion/FadeIn";
 import FacultyLeadCards from "@/components/faculty/FacultyLeadCards";
 import Link from "next/link";
@@ -11,14 +12,25 @@ function isFeaturedRole(role: string) {
 
 function FacultyCard({ member }: { member: FacultyRole }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-      <p className="text-xs font-bold uppercase tracking-wider text-[#3035B5]">
-        {member.role}
-      </p>
-      <p className="mt-2 text-sm font-semibold leading-snug text-[#25297F]">
-        {member.name}
-      </p>
-    </div>
+    <article className="card-interactive flex items-center gap-4 p-4">
+      <div className="relative h-[4.5rem] w-[4.5rem] shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:h-20 sm:w-20">
+        <Image
+          src={member.photo}
+          alt={member.name}
+          fill
+          sizes="80px"
+          className="object-cover object-top"
+        />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-[#3035B5] sm:text-xs">
+          {member.role}
+        </p>
+        <p className="mt-1 text-sm font-semibold leading-snug text-[#25297F] sm:text-base">
+          {member.name}
+        </p>
+      </div>
+    </article>
   );
 }
 

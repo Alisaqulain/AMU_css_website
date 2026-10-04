@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import FadeIn from "@/components/motion/FadeIn";
@@ -185,12 +186,25 @@ export default function AboutPage() {
                 {facultyCommitteeRoles.map((member) => (
                   <li
                     key={member.name}
-                    className="flex flex-wrap items-baseline justify-between gap-2 border border-[#e2e0d8] bg-white px-4 py-3"
+                    className="flex items-center gap-3 border border-[#e2e0d8] bg-white px-4 py-3"
                   >
-                    <span className="font-medium text-[#1a1f3d]">
-                      {member.name}
-                    </span>
-                    <span className="text-sm text-[#3035B5]">{member.role}</span>
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-[#e2e0d8] bg-slate-100">
+                      <Image
+                        src={member.photo}
+                        alt=""
+                        fill
+                        sizes="48px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-2">
+                      <span className="font-medium text-[#1a1f3d]">
+                        {member.name}
+                      </span>
+                      <span className="text-sm text-[#3035B5]">
+                        {member.role}
+                      </span>
+                    </div>
                   </li>
                 ))}
               </ul>

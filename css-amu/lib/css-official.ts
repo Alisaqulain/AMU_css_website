@@ -85,6 +85,12 @@ export const societyOperations = [
 export const facultyPhotoUrls = {
   president: "/faculity/arman.png",
   convener: "/faculity/nadeem.jpg",
+  seniorMentor: "/faculity/ubaidullahbukhari.jpg",
+  aasimZafar: "/faculity/aasimzafar.jpg",
+  suhelMustajab: "/faculity/suhelmustajab.jpg",
+  swalehaZubair: "/faculity/swalehazubair.jpg",
+  faisalAnwer: "/faculity/faisalanwer.jpg",
+  mohammadSajid: "/faculity/mohammadsajid.jpg",
 } as const;
 
 export const facultyLeadCards = [
@@ -106,12 +112,36 @@ export const facultyCommitteeRoles = [
     name: "Prof. Arman Rasool Faridi",
     photo: facultyPhotoUrls.president,
   },
-  { role: "Senior Mentor", name: "Prof. Mohammad Ubaidullah Bokhari" },
-  { role: "Mentor", name: "Prof. Aasim Zafar" },
-  { role: "Mentor", name: "Prof. Suhel Mustajab" },
-  { role: "Mentor", name: "Prof. Swaleha Zubair" },
-  { role: "Mentor", name: "Dr. Faisal Anwer" },
-  { role: "Mentor", name: "Dr. Mohammad Sajid" },
+  {
+    role: "Senior Mentor",
+    name: "Prof. Mohammad Ubaidullah Bokhari",
+    photo: facultyPhotoUrls.seniorMentor,
+  },
+  {
+    role: "Mentor",
+    name: "Prof. Aasim Zafar",
+    photo: facultyPhotoUrls.aasimZafar,
+  },
+  {
+    role: "Mentor",
+    name: "Prof. Suhel Mustajab",
+    photo: facultyPhotoUrls.suhelMustajab,
+  },
+  {
+    role: "Mentor",
+    name: "Prof. Swaleha Zubair",
+    photo: facultyPhotoUrls.swalehaZubair,
+  },
+  {
+    role: "Mentor",
+    name: "Dr. Faisal Anwer",
+    photo: facultyPhotoUrls.faisalAnwer,
+  },
+  {
+    role: "Mentor",
+    name: "Dr. Mohammad Sajid",
+    photo: facultyPhotoUrls.mohammadSajid,
+  },
   {
     role: "Convener",
     name: "Dr. Mohammad Nadeem",
