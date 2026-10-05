@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CLUB_OPTIONS } from "@/lib/clubs";
+import { computeClubInterestStats } from "@/lib/admin-interest-stats";
 import {
   exportClubInterestsCsv,
   exportClubInterestsPdf,
@@ -103,10 +104,21 @@ export default function AdminDashboard() {
   const [contactsError, setContactsError] = useState("");
 
   const loadData = useCallback(async () => {
+    const sessionRes = await fetch("/api/admin/session", {
+      credentials: "same-origin",
+    });
+    const sessionData = await sessionRes.json().catch(() => ({}));
+    if (!sessionData.authenticated) {
+      setAuthed(false);
+      return;
+    }
+
+    setAuthed(true);
+
     const [evRes, intRes, contactRes] = await Promise.all([
-      fetch("/api/admin/events"),
-      fetch("/api/admin/club-interests"),
-      fetch("/api/admin/contact-messages"),
+      fetch("/api/admin/events", { credentials: "same-origin" }),
+      fetch("/api/admin/club-interests", { credentials: "same-origin" }),
+      fetch("/api/admin/contact-messages", { credentials: "same-origin" }),
     ]);
 
     if (
@@ -117,8 +129,6 @@ export default function AdminDashboard() {
       setAuthed(false);
       return;
     }
-
-    setAuthed(true);
     const evData = await evRes.json();
     const intData = await intRes.json();
     const contactData = await contactRes.json();
@@ -151,6 +161,7 @@ export default function AdminDashboard() {
     const res = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({ password }),
     });
     if (!res.ok) {
@@ -159,11 +170,15 @@ export default function AdminDashboard() {
       return;
     }
     setPassword("");
+    setAuthed(true);
     await loadData();
   };
 
   const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
+    await fetch("/api/admin/logout", {
+      method: "POST",
+      credentials: "same-origin",
+    });
     setAuthed(false);
     setEvents([]);
     setInterests([]);
@@ -266,6 +281,8 @@ export default function AdminDashboard() {
     );
   }
 
+  const interestStats = computeClubInterestStats(interests);
+
   const tabLabels: { id: AdminTab; label: string }[] = [
     { id: "events", label: "Events" },
     { id: "interests", label: "Club interests" },
@@ -284,9 +301,9 @@ export default function AdminDashboard() {
         <button
           type="button"
           onClick={handleLogout}
-          className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-lg border border-[#CC484A]/40 bg-white px-4 py-2 text-sm font-semibold text-[#CC484A] hover:bg-[#CC484A]/5"
         >
-          Sign out
+          Logout
         </button>
       </div>
 
@@ -410,9 +427,49 @@ export default function AdminDashboard() {
               {interestsError}
             </div>
           )}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Total
+              </p>
+              <p className="mt-1 text-2xl font-bold text-[#25297F]">
+                {interestStats.total}
+              </p>
+            </div>
+            {CLUB_OPTIONS.map((club) => (
+              <div
+                key={club}
+                className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  {club}
+                </p>
+                <p className="mt-1 text-2xl font-bold text-[#3035B5]">
+                  {interestStats.clubCounts[club]}
+                </p>
+              </div>
+            ))}
+            <div className="rounded-xl border border-[#5B2D91]/25 bg-[#5B2D91]/5 p-4 shadow-sm sm:col-span-2 lg:col-span-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#5B2D91]">
+                Multiple clubs
+              </p>
+              <p className="mt-1 text-2xl font-bold text-[#5B2D91]">
+                {interestStats.multipleClubs}
+              </p>
+              <p className="mt-1 text-xs text-slate-600">
+                Selected more than one field
+              </p>
+            </div>
+          </div>
+          {interestStats.notInterested > 0 && (
+            <p className="text-sm text-slate-600">
+              {interestStats.notInterested} marked not interested in any club.
+            </p>
+          )}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-slate-600">
-              {interests.length} submission{interests.length === 1 ? "" : "s"}
+              {interests.length} submission{interests.length === 1 ? "" : "s"}{" "}
+              in table
             </p>
             <ExportButtons
               disabled={interests.length === 0}

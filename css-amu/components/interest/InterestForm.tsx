@@ -409,7 +409,8 @@ export default function InterestForm() {
               <span className="text-lg" aria-hidden>✓</span>
               <div>
                 <p className="font-medium">
-                  Form received. A domain lead will email you with next steps.
+                  Form received. A domain lead will review your submission and
+                  share next steps.
                 </p>
                 {formattedSubmittedAt && (
                   <p className="mt-1 text-xs text-[#2d7a38]/90">
