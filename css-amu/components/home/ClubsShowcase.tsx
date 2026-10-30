@@ -10,12 +10,12 @@ export default function ClubsShowcase() {
     <section className="border-b border-[#e2e0d8] bg-white py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Clubs"
-          title="Four clubs, one society"
-          description="Each club runs projects, study circles, and events. Use the interest form to join."
+          eyebrow="Teams"
+          title="Nine teams, one society"
+          description="Each team runs projects, events, and campus work. Use the interest form to join."
         />
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-2">
+        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {clubDomains.map((club, index) => (
             <FadeIn key={club.id} delay={index * 0.04}>
               <article

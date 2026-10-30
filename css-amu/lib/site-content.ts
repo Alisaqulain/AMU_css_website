@@ -1,50 +1,100 @@
 export const societyStats = [
   { label: "Founded (ADC)", value: "2018", suffix: "" },
   { label: "Registered members (2019)", value: "129", suffix: "+" },
-  { label: "Technical domains today", value: "4", suffix: "" },
+  { label: "Teams today", value: "9", suffix: "" },
   { label: "Recognized as CSS", value: "2021", suffix: "" },
 ] as const;
 
 export const clubDomains = [
   {
-    id: "aiml",
-    name: "AI / ML",
-    tagline: "Machine learning",
+    id: "graphics",
+    name: "Graphics Team",
+    tagline: "Design & visuals",
     description:
-      "Study circles on Python, models, and small projects. Starts from basics if you are new.",
-    topics: ["Python & PyTorch", "Computer Vision", "NLP", "MLOps basics"],
-    accent: "#3035B5",
+      "Posters, event creatives, and brand visuals for CSS workshops and festivals.",
+    topics: ["Posters", "Social creatives", "Brand kits", "Canva / Figma"],
+    accent: "#5B2D91",
     icon: "brain",
   },
   {
-    id: "web",
-    name: "Web Development",
-    tagline: "Full-stack web",
+    id: "smpr",
+    name: "Social Media and PR Team",
+    tagline: "Reach & reputation",
     description:
-      "Work on sites and apps with React, APIs, and deployment. This society site is one of the club projects.",
-    topics: ["React & Next.js", "UI/UX", "REST & auth", "Deployment"],
-    accent: "#5B2D91",
+      "Instagram, LinkedIn, and campus outreach so every CSS event finds its audience.",
+    topics: ["Content calendar", "Captions", "PR", "Engagement"],
+    accent: "#CC484A",
     icon: "code",
   },
   {
-    id: "cyber",
-    name: "Cybersecurity",
-    tagline: "CTF and security basics",
+    id: "volunteer",
+    name: "Volunteer Crew",
+    tagline: "On-ground support",
     description:
-      "CTF practice, secure coding, and lab sessions for students who want to learn security step by step.",
-    topics: ["CTF & OSINT", "Network security", "Web exploits", "Digital forensics"],
-    accent: "#CC484A",
+      "Help run registrations, hospitality, and floor support at CSS events.",
+    topics: ["Registrations", "Hospitality", "Floor ops", "Help desk"],
+    accent: "#3CA049",
     icon: "shield",
   },
   {
-    id: "dsa",
-    name: "DSA",
-    tagline: "Contests and placements",
+    id: "technical",
+    name: "Technical Team",
+    tagline: "Systems & setup",
     description:
-      "Topic-wise DSA sessions, contest prep, and peer groups for placements and internships.",
-    topics: ["Contest prep", "Systematic topics", "Mock interviews", "Codeforces / LeetCode"],
-    accent: "#3CA049",
+      "AV, networking, and technical setup that keeps workshops and hackathons running.",
+    topics: ["AV setup", "Networking", "Labs", "Support"],
+    accent: "#3035B5",
     icon: "graph",
+  },
+  {
+    id: "editorial",
+    name: "Editorial Team",
+    tagline: "Writing & content",
+    description:
+      "Articles, scripts, newsletters, and editorial content for society storytelling.",
+    topics: ["Articles", "Scripts", "Newsletters", "Storytelling"],
+    accent: "#B85C38",
+    icon: "brain",
+  },
+  {
+    id: "logistics",
+    name: "Logistics Team",
+    tagline: "Ops & coordination",
+    description:
+      "Venues, schedules, and resource coordination behind every CSS event.",
+    topics: ["Venues", "Schedules", "Inventory", "Coordination"],
+    accent: "#1F6F8B",
+    icon: "code",
+  },
+  {
+    id: "web",
+    name: "Web Dev Team",
+    tagline: "Sites & products",
+    description:
+      "Build and maintain CSS websites and event platforms with modern web stacks.",
+    topics: ["React & Next.js", "UI", "APIs", "Deployment"],
+    accent: "#5B2D91",
+    icon: "shield",
+  },
+  {
+    id: "aiml",
+    name: "AI ML Team",
+    tagline: "Machine learning",
+    description:
+      "Study circles on Python, models, and small projects. Open to beginners.",
+    topics: ["Python", "ML basics", "Projects", "Demos"],
+    accent: "#3035B5",
+    icon: "graph",
+  },
+  {
+    id: "cyber",
+    name: "Cyber Team",
+    tagline: "Security & CTF",
+    description:
+      "CTF practice, secure coding, and labs for students exploring cybersecurity.",
+    topics: ["CTF", "OSINT", "Web security", "Labs"],
+    accent: "#CC484A",
+    icon: "brain",
   },
 ] as const;
 
@@ -110,7 +160,7 @@ export const timeline = [
     year: "Today",
     title: "Domain clubs & AMUHACKS",
     body:
-      "Clubs in AI/ML, Web Development, Cybersecurity, and DSA. Workshops, internships, hackathons, and placement help each session.",
+      "Teams across graphics, PR, volunteers, tech, editorial, logistics, web, AI/ML, and cyber. Workshops, hackathons, and campus events each session.",
   },
 ] as const;
 
@@ -140,7 +190,7 @@ export const faqItems = [
   },
   {
     q: "Is CSS the same as recruitment?",
-    a: "Club domains (AI/ML, Web, Cyber, DSA) are separate from core team recruitment. Core roles open on the Join Team page when applications are live.",
+    a: "Use the interest form to pick teams (Graphics, Web Dev, AI/ML, Cyber, and more). Core team applications with resume open on the Join Team page.",
   },
   {
     q: "Do I need prior experience?",

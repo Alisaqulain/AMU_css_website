@@ -8,7 +8,7 @@ import logo from "@/public/cslogo.png";
 
 const pageTitle = "Club interest form";
 const pageDescription =
-  "Submit your club interest for CSS AMU: AI/ML, Web Development, Cybersecurity, or DSA. Department of Computer Science, Aligarh Muslim University.";
+  "Submit your interest for CSS AMU teams: Graphics, Social Media & PR, Volunteer Crew, Technical, Editorial, Logistics, Web Dev, AI/ML, and Cyber.";
 
 export const metadata = pageMetadata({
   title: pageTitle,
@@ -17,10 +17,7 @@ export const metadata = pageMetadata({
   keywords: [
     "CSS AMU club interest",
     "join computer science society AMU",
-    "AI ML club AMU",
-    "web development club AMU",
-    "DSA club AMU",
-    "cybersecurity club AMU",
+    "CSS AMU teams",
   ],
 });
 
@@ -56,13 +53,16 @@ export default function InterestPage() {
                 </h1>
               </div>
               <p className="mx-auto mt-5 text-base leading-7 text-slate-600">
-                Pick AI/ML, Web Development, Cybersecurity, or DSA. A domain lead
-                will review your form and reply with next steps.
+                Pick the teams you want to join. A lead will review your form and
+                reply with next steps.
               </p>
             </FadeIn>
           </div>
 
-          <FadeIn delay={0.1} className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <FadeIn
+            delay={0.1}
+            className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {clubDomains.map((club) => (
               <div
                 key={club.id}

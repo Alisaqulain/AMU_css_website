@@ -24,6 +24,22 @@ export type ContactMessageRow = {
   created_at: string;
 };
 
+export type TeamApplicationRow = {
+  id: string;
+  name: string;
+  course: string;
+  enrollment_number: string;
+  phone_number: string;
+  semester: string;
+  club_name: string;
+  club_names: string[] | null;
+  not_interested: boolean | null;
+  other_club: string | null;
+  resume_url: string | null;
+  resume_filename: string | null;
+  created_at: string;
+};
+
 async function withSql<T>(
   fn: (sql: ReturnType<typeof postgres>) => Promise<T>
 ): Promise<T | { error: string }> {
@@ -156,5 +172,65 @@ export async function deleteContactMessageById(
 
   const supabase = createServiceSupabase();
   const { error } = await supabase.from("contact_messages").delete().eq("id", id);
+  return error?.message ?? null;
+}
+
+export async function fetchTeamApplicationsForAdmin(): Promise<{
+  data: TeamApplicationRow[];
+  error?: string;
+}> {
+  const sqlResult = await withSql(async (sql) =>
+    sql<TeamApplicationRow[]>`
+      select id, name, course, enrollment_number, phone_number, semester, club_name, club_names, not_interested, other_club, resume_url, resume_filename, created_at
+      from public.team_applications
+      order by created_at desc
+    `
+  );
+
+  if (!("error" in sqlResult)) {
+    return { data: sqlResult };
+  }
+
+  if (!hasValidServiceRoleKey()) {
+    return {
+      data: [],
+      error:
+        "Set SUPABASE_SERVICE_ROLE_KEY or DATABASE_URL in .env.local to load applications.",
+    };
+  }
+
+  try {
+    const supabase = createServiceSupabase();
+    const { data, error } = await supabase
+      .from("team_applications")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) return { data: [], error: error.message };
+    return { data: (data ?? []) as TeamApplicationRow[] };
+  } catch (err) {
+    return {
+      data: [],
+      error: err instanceof Error ? err.message : "Server error.",
+    };
+  }
+}
+
+export async function deleteTeamApplicationById(
+  id: string
+): Promise<string | null> {
+  if (!hasValidServiceRoleKey()) {
+    const result = await withSql(
+      async (sql) =>
+        await sql`delete from public.team_applications where id = ${id}`
+    );
+    return "error" in result ? result.error : null;
+  }
+
+  const supabase = createServiceSupabase();
+  const { error } = await supabase
+    .from("team_applications")
+    .delete()
+    .eq("id", id);
   return error?.message ?? null;
 }

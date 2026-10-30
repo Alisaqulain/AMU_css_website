@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 import logo from "@/public/cslogo.png";
 import {
+  CLUB_ACCENT,
   CLUB_OPTIONS,
   NOT_INTERESTED_LABEL,
   type ClubName,
@@ -44,7 +45,7 @@ const clubInterestSchema = z
       if (data.club_names.length > 0) {
         ctx.addIssue({
           code: "custom",
-          message: "Remove club selections or uncheck not interested.",
+          message: "Remove team selections or uncheck not interested.",
           path: ["club_names"],
         });
       }
@@ -53,18 +54,11 @@ const clubInterestSchema = z
     if (data.club_names.length === 0) {
       ctx.addIssue({
         code: "custom",
-        message: "Select at least one club, or choose not interested in any.",
+        message: "Select at least one team, or choose not interested in any.",
         path: ["club_names"],
       });
     }
   });
-
-const clubAccent: Record<ClubName, string> = {
-  "AI/ML": "#3035B5",
-  "Web Development": "#5B2D91",
-  Cybersecurity: "#CC484A",
-  DSA: "#3CA049",
-};
 
 function Field({
   id,
@@ -226,8 +220,8 @@ export default function InterestForm() {
           <h2 className="text-xl font-bold text-[#25297F]">Club interest form</h2>
         </div>
         <p className="mt-2 text-sm text-slate-600 sm:pl-[3.25rem]">
-          Pick one or more technical fields, or indicate you are not interested in
-          any club right now.
+          Pick one or more teams you want to join, or indicate you are not
+          interested in any team right now.
         </p>
       </div>
 
@@ -321,13 +315,13 @@ export default function InterestForm() {
             Field interest
           </p>
           <p className="text-sm text-slate-600">
-            Select all clubs you want to join (multiple allowed).
+            Select all domains you want to contribute to (multiple allowed).
           </p>
 
           <div className="grid gap-3 sm:grid-cols-2">
             {CLUB_OPTIONS.map((club) => {
               const active = selectedClubs.includes(club);
-              const accent = clubAccent[club];
+              const accent = CLUB_ACCENT[club];
               return (
                 <button
                   key={club}

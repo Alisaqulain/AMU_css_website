@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "api.amu.ac.in",
         pathname: "/storage/**",
       },
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
 };

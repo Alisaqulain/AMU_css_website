@@ -29,7 +29,7 @@ const bodySchema = z
       if (data.club_names.length > 0) {
         ctx.addIssue({
           code: "custom",
-          message: "Clear club selections when choosing not interested.",
+          message: "Clear team selections when choosing not interested.",
           path: ["club_names"],
         });
       }
@@ -38,7 +38,7 @@ const bodySchema = z
     if (data.club_names.length === 0) {
       ctx.addIssue({
         code: "custom",
-        message: "Select at least one club, or choose not interested in any.",
+        message: "Select at least one team, or choose not interested in any.",
         path: ["club_names"],
       });
     }

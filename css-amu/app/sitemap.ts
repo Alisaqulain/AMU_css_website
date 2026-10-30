@@ -9,6 +9,7 @@ const publicPaths = [
   "/contact",
   "/interest",
   "/membershipForm",
+  "/certificate",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

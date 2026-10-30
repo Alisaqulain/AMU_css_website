@@ -166,3 +166,147 @@ export function exportContactPdf(
     `contact-messages-${new Date().toISOString().slice(0, 10)}.pdf`,
   );
 }
+
+type CertificateExportRow = {
+  serial: string;
+  name: string;
+  enrollment_number: string | null;
+  course: string | null;
+  label: string;
+  day_position: string;
+  status: string;
+  created_at: string;
+};
+
+export function exportCertificatesCsv(
+  rows: CertificateExportRow[],
+  formatDate: (iso: string) => string,
+  dayLabelFn: (day: string) => string,
+  urlFor: (serial: string) => string,
+) {
+  downloadCsv(
+    `certificates-${new Date().toISOString().slice(0, 10)}.csv`,
+    [
+      "Serial",
+      "Name",
+      "Enrollment",
+      "Course",
+      "Event",
+      "Day",
+      "Status",
+      "Issued (IST)",
+      "Link",
+    ],
+    rows.map((r) => [
+      r.serial,
+      r.name,
+      r.enrollment_number ?? "",
+      r.course ?? "",
+      r.label,
+      dayLabelFn(r.day_position),
+      r.status,
+      formatDate(r.created_at),
+      urlFor(r.serial),
+    ]),
+  );
+}
+
+export function exportCertificatesPdf(
+  rows: CertificateExportRow[],
+  formatDate: (iso: string) => string,
+  dayLabelFn: (day: string) => string,
+) {
+  const doc = new jsPDF({ orientation: "landscape" });
+  doc.setFontSize(14);
+  doc.text("CSS AMU: issued certificates", 14, 14);
+  autoTable(doc, {
+    startY: 20,
+    head: [["Serial", "Name", "Enrollment", "Course", "Day", "Status", "Issued"]],
+    body: rows.map((r) => [
+      r.serial,
+      r.name,
+      r.enrollment_number ?? "",
+      r.course ?? "",
+      dayLabelFn(r.day_position),
+      r.status,
+      formatDate(r.created_at),
+    ]),
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [48, 53, 181] },
+  });
+  savePdf(doc, `certificates-${new Date().toISOString().slice(0, 10)}.pdf`);
+}
+
+export function exportTeamApplicationsCsv(
+  rows: {
+    name: string;
+    course: string;
+    enrollment_number: string;
+    phone_number: string;
+    semester: string;
+    club_name: string;
+    resume_url: string | null;
+    created_at: string;
+  }[],
+  formatDate: (iso: string) => string,
+) {
+  downloadCsv(
+    `team-applications-${new Date().toISOString().slice(0, 10)}.csv`,
+    [
+      "Name",
+      "Course",
+      "Enrollment",
+      "Phone",
+      "Semester",
+      "Clubs",
+      "Resume URL",
+      "Submitted (IST)",
+    ],
+    rows.map((r) => [
+      r.name,
+      r.course,
+      r.enrollment_number,
+      r.phone_number,
+      r.semester,
+      r.club_name,
+      r.resume_url ?? "",
+      formatDate(r.created_at),
+    ]),
+  );
+}
+
+export function exportTeamApplicationsPdf(
+  rows: {
+    name: string;
+    course: string;
+    enrollment_number: string;
+    phone_number: string;
+    semester: string;
+    club_name: string;
+    created_at: string;
+  }[],
+  formatDate: (iso: string) => string,
+) {
+  const doc = new jsPDF({ orientation: "landscape" });
+  doc.setFontSize(14);
+  doc.text("CSS AMU: Team applications", 14, 14);
+  autoTable(doc, {
+    startY: 20,
+    head: [["Name", "Course", "Enrollment", "Phone", "Sem", "Clubs", "Submitted"]],
+    body: rows.map((r) => [
+      r.name,
+      r.course,
+      r.enrollment_number,
+      r.phone_number,
+      r.semester,
+      r.club_name,
+      formatDate(r.created_at),
+    ]),
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [48, 53, 181] },
+  });
+  savePdf(
+    doc,
+    `team-applications-${new Date().toISOString().slice(0, 10)}.pdf`,
+  );
+}
