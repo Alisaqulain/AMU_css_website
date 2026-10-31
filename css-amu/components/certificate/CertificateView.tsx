@@ -40,6 +40,8 @@ export default function CertificateView({
       className={`relative mx-auto w-full max-w-[920px] overflow-hidden bg-white shadow-lg ${className}`}
       style={{
         aspectRatio: `${blankCertificate.width} / ${blankCertificate.height}`,
+        // Text is sized in cqw (% of certificate width) so it scales with the certificate, not the screen
+        containerType: "inline-size",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -65,7 +67,7 @@ export default function CertificateView({
         <p
           className={`${nameFont.className} m-0 bg-transparent p-0 text-center font-normal italic leading-none text-[#1a1a1a]`}
           style={{
-            fontSize: "clamp(1.25rem, 3.6vw, 2.1rem)",
+            fontSize: "3.1cqw",
             paddingBottom: "0.12em",
           }}
         >
@@ -78,14 +80,14 @@ export default function CertificateView({
         style={{
           left: "30%",
           width: "20%",
-          top: "54.2%",
+          top: "54%",
           height: "4.5%",
         }}
       >
         <p
           className={`${nameFont.className} m-0 bg-transparent p-0 text-center font-normal italic leading-none text-[#1a1a1a]`}
           style={{
-            fontSize: "clamp(0.9rem, 2vw, 1.2rem)",
+            fontSize: "1.8cqw",
             paddingBottom: "0.1em",
           }}
         >
@@ -104,14 +106,14 @@ export default function CertificateView({
           }}
         >
           <p
-            className="m-0 font-semibold leading-tight tracking-wide"
-            style={{ fontSize: "clamp(0.45rem, 1.15vw, 0.72rem)" }}
+            className="m-0 whitespace-nowrap font-semibold leading-tight"
+            style={{ fontSize: "1.1cqw" }}
           >
             Certificate No. {serial}
           </p>
           <p
-            className="m-0 leading-tight text-slate-600"
-            style={{ fontSize: "clamp(0.4rem, 0.95vw, 0.6rem)" }}
+            className="m-0 whitespace-nowrap leading-tight text-slate-600"
+            style={{ fontSize: "0.9cqw" }}
           >
             Verify at {new URL(getSiteUrl()).host}/certificate
           </p>
