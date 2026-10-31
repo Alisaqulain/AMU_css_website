@@ -1,7 +1,7 @@
 export const societyStats = [
   { label: "Founded (ADC)", value: "2018", suffix: "" },
   { label: "Registered members (2019)", value: "129", suffix: "+" },
-  { label: "Teams today", value: "9", suffix: "" },
+  { label: "Teams today", value: "10", suffix: "" },
   { label: "Recognized as CSS", value: "2021", suffix: "" },
 ] as const;
 
@@ -96,6 +96,16 @@ export const clubDomains = [
     accent: "#CC484A",
     icon: "brain",
   },
+  {
+    id: "dsa",
+    name: "DSA Team",
+    tagline: "Problem solving",
+    description:
+      "Data structures, algorithms, and competitive programming practice for contests and placements.",
+    topics: ["Data structures", "Algorithms", "Competitive coding", "Interview prep"],
+    accent: "#1F6F8B",
+    icon: "code",
+  },
 ] as const;
 
 export const initiatives = [
@@ -160,7 +170,7 @@ export const timeline = [
     year: "Today",
     title: "Domain clubs & AMUHACKS",
     body:
-      "Teams across graphics, PR, volunteers, tech, editorial, logistics, web, AI/ML, and cyber. Workshops, hackathons, and campus events each session.",
+      "Teams across graphics, PR, volunteers, tech, editorial, logistics, web, AI/ML, cyber, and DSA. Workshops, hackathons, and campus events each session.",
   },
 ] as const;
 
@@ -190,7 +200,7 @@ export const faqItems = [
   },
   {
     q: "Is CSS the same as recruitment?",
-    a: "Use the interest form to pick teams (Graphics, Web Dev, AI/ML, Cyber, and more). Core team applications with resume open on the Join Team page.",
+    a: "Use the interest form to pick teams (Graphics, Web Dev, AI/ML, Cyber, DSA, and more). Core team applications with resume open on the Join Team page.",
   },
   {
     q: "Do I need prior experience?",

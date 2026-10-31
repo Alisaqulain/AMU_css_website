@@ -8,7 +8,7 @@ import logo from "@/public/cslogo.png";
 
 const pageTitle = "Club interest form";
 const pageDescription =
-  "Submit your interest for CSS AMU teams: Graphics, Social Media & PR, Volunteer Crew, Technical, Editorial, Logistics, Web Dev, AI/ML, and Cyber.";
+  "Submit your interest for CSS AMU teams: Graphics, Social Media & PR, Volunteer Crew, Technical, Editorial, Logistics, Web Dev, AI/ML, Cyber, and DSA.";
 
 export const metadata = pageMetadata({
   title: pageTitle,

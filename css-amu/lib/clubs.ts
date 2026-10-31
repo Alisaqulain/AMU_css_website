@@ -8,6 +8,7 @@ export const CLUB_OPTIONS = [
   "Web Dev Team",
   "AI ML Team",
   "Cyber Team",
+  "DSA Team",
 ] as const;
 
 export type ClubName = (typeof CLUB_OPTIONS)[number];
@@ -30,6 +31,9 @@ export const TEAM_ACCENT: Record<ClubName, string> = {
   "Web Dev Team": "#5B2D91",
   "AI ML Team": "#3035B5",
   "Cyber Team": "#CC484A",
+  "DSA Team": "#1F6F8B",
 };
 
 export const CLUB_ACCENT = TEAM_ACCENT;
+
+export const SEMESTER_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8"] as const;

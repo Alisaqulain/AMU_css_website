@@ -15,7 +15,7 @@ const navLinks = [
 ];
 
 const joinOptions = [
-  { href: "/interest", title: "Join a club", description: "Graphics, Web, AI/ML, Cyber & more" },
+  { href: "/interest", title: "Join a club", description: "Graphics, Web, AI/ML, Cyber, DSA & more" },
   { href: "/membershipForm", title: "Join the team", description: "Core roles" },
 ];
 

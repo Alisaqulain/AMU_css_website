@@ -9,6 +9,7 @@ import {
   CLUB_ACCENT,
   CLUB_OPTIONS,
   NOT_INTERESTED_LABEL,
+  SEMESTER_OPTIONS,
   type ClubName,
 } from "@/lib/clubs";
 
@@ -313,16 +314,24 @@ export default function TeamForm() {
             <Field
               id="semester"
               label="Semester"
-              hint="Type your current semester (e.g. 3 or Semester 3)."
+              hint="Select your current semester."
             >
-              <input
+              <select
                 id="semester"
                 name="semester"
-                type="text"
                 required
-                placeholder="e.g. 5"
+                defaultValue=""
                 className={inputClass}
-              />
+              >
+                <option value="" disabled>
+                  Select semester
+                </option>
+                {SEMESTER_OPTIONS.map((s) => (
+                  <option key={s} value={s}>
+                    Semester {s}
+                  </option>
+                ))}
+              </select>
             </Field>
           </div>
         </section>

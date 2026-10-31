@@ -8,7 +8,7 @@ import logo from "@/public/cslogo.png";
 
 const pageTitle = "Join the team";
 const pageDescription =
-  "Apply for the CSS AMU core team: Graphics, Social Media & PR, Volunteer Crew, Technical, Editorial, Logistics, Web Dev, AI/ML, and Cyber.";
+  "Apply for the CSS AMU core team: Graphics, Social Media & PR, Volunteer Crew, Technical, Editorial, Logistics, Web Dev, AI/ML, Cyber, and DSA.";
 
 export const metadata = pageMetadata({
   title: pageTitle,
