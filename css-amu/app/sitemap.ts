@@ -7,7 +7,6 @@ const publicPaths = [
   "/events",
   "/team",
   "/contact",
-  "/interest",
   "/membershipForm",
   "/certificate",
 ];
@@ -20,6 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: path === "/" ? base : absoluteUrl(path),
     lastModified,
     changeFrequency: path === "/" || path === "/events" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : path === "/interest" ? 0.9 : 0.7,
+    priority: path === "/" ? 1 : path === "/membershipForm" ? 0.9 : 0.7,
   }));
 }

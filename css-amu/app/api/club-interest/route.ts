@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { CLUB_OPTIONS, NOT_INTERESTED_LABEL } from "@/lib/clubs";
+import { getClientIp } from "@/lib/client-ip";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { createAnonSupabase } from "@/lib/supabase/server";
+
+const CLUB_INTEREST_RATE_LIMIT = { limit: 20, windowMs: 60 * 60 * 1000 };
 
 const clubEnum = z.enum(CLUB_OPTIONS);
 
@@ -46,6 +50,22 @@ const bodySchema = z
 
 export async function POST(request: Request) {
   try {
+    const rate = checkRateLimit(
+      `club-interest:${getClientIp(request)}`,
+      CLUB_INTEREST_RATE_LIMIT,
+    );
+    if (!rate.allowed) {
+      return NextResponse.json(
+        {
+          error: `Too many submissions from your network. Try again in ${Math.ceil(rate.retryAfterSec / 60)} minutes.`,
+        },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rate.retryAfterSec) },
+        },
+      );
+    }
+
     const json = await request.json();
     const parsed = bodySchema.safeParse(json);
 

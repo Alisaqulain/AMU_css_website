@@ -16,7 +16,6 @@ const quickLinks = [
   { name: "About", href: "/about" },
   { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
-  { name: "Interest form", href: "/interest" },
   { name: "Verify certificate", href: "/certificate" },
   { name: "Contact", href: "/contact" },
   { name: "Recruitment", href: "/membershipForm" },
@@ -27,12 +26,12 @@ export default function Footer() {
     <footer className="mt-16 border-t-4 border-[#3035B5] bg-[#1a1f3d] text-white">
       <div className="border-b border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 px-6 py-8 lg:flex-row lg:items-center lg:px-8">
-          <p className="text-lg font-semibold">Join a club or the core team</p>
+          <p className="text-lg font-semibold">Join the CSS core team</p>
           <Link
-            href="/interest"
+            href="/membershipForm"
             className="inline-flex items-center gap-2 bg-white px-5 py-2.5 text-sm font-semibold text-[#3035B5] hover:bg-[#f0f0f0]"
           >
-            Interest form
+            Join the team
             <FaArrowRight className="h-3.5 w-3.5" aria-hidden />
           </Link>
         </div>
@@ -93,7 +92,7 @@ export default function Footer() {
               {clubDomains.map((c) => (
                 <li key={c.id}>
                   <Link
-                    href="/interest"
+                    href="/membershipForm"
                     className="group flex items-center justify-between text-sm text-slate-400 transition hover:text-white"
                   >
                     <span>{c.name}</span>

@@ -60,7 +60,7 @@ export default function Home() {
                   {[
                     "Faculty committee",
                     "Student domain leads",
-                    "Club interest form",
+                    "Open team recruitment",
                     "DSA and placement groups",
                   ].map((item) => (
                     <li
@@ -80,10 +80,10 @@ export default function Home() {
                     Full history & objectives <span className="ml-2">→</span>
                   </Link>
                   <Link
-                    href="/interest"
+                    href="/membershipForm"
                     className="inline-flex items-center font-semibold text-[#5B2D91] hover:text-[#3035B5]"
                   >
-                    Club interest form <span className="ml-2">→</span>
+                    Join the team <span className="ml-2">→</span>
                   </Link>
                 </div>
               </div>
@@ -104,18 +104,15 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
           <FadeIn>
             <h2 className="font-display text-3xl font-semibold text-[#1a1f3d]">
-              Club interest form
+              Join the team
             </h2>
             <p className="mt-4 text-[#4a5068]">
-              AI/ML, Web Development, Cybersecurity, or DSA. Submit once; a domain
-              lead will reply.
+              AI/ML, Web Development, Cybersecurity, DSA, and more. Apply once;
+              a team lead will reply.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link href="/interest" className="btn-primary">
-                Open form
-              </Link>
-              <Link href="/membershipForm" className="btn-secondary">
-                Core team recruitment
+              <Link href="/membershipForm" className="btn-primary">
+                Join the team
               </Link>
             </div>
           </FadeIn>

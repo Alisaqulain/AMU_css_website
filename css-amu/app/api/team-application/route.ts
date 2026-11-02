@@ -1,8 +1,20 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { CLUB_OPTIONS, NOT_INTERESTED_LABEL } from "@/lib/clubs";
+import { CLUB_OPTIONS, SEMESTER_OPTIONS } from "@/lib/clubs";
+import { getClientIp } from "@/lib/client-ip";
+import {
+  ENROLLMENT_ERROR,
+  PHONE_ERROR,
+  isValidEnrollment,
+  isValidPhone,
+  normalizeEnrollment,
+  normalizePhone,
+} from "@/lib/form-validation";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { createAnonSupabase } from "@/lib/supabase/server";
 import { uploadPublicFile } from "@/lib/upload";
+
+const TEAM_APPLICATION_RATE_LIMIT = { limit: 20, windowMs: 60 * 60 * 1000 };
 
 const teamEnum = z.enum(CLUB_OPTIONS);
 
@@ -10,43 +22,37 @@ const fieldsSchema = z
   .object({
     name: z.string().trim().min(2).max(120),
     course: z.string().trim().min(2).max(200),
-    enrollment_number: z.string().trim().min(2).max(50),
+    enrollment_number: z
+      .string()
+      .refine(isValidEnrollment, ENROLLMENT_ERROR)
+      .transform(normalizeEnrollment),
     phone_number: z
       .string()
-      .trim()
-      .min(10)
-      .max(20)
-      .refine((value) => {
-        const digits = value.replace(/\D/g, "");
-        return digits.length >= 10 && digits.length <= 12;
-      }, "Invalid phone number."),
-    semester: z.string().trim().min(1).max(30),
-    club_names: z.array(teamEnum).default([]),
-    not_interested: z.boolean().default(false),
+      .refine(isValidPhone, PHONE_ERROR)
+      .transform(normalizePhone),
+    semester: z.enum(SEMESTER_OPTIONS, "Please select your semester."),
+    club_names: z.array(teamEnum).min(1, "Select at least one team."),
     other_club: z.string().trim().max(300).optional().nullable(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.not_interested) {
-      if (data.club_names.length > 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Clear team selections when choosing not interested.",
-          path: ["club_names"],
-        });
-      }
-      return;
-    }
-    if (data.club_names.length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Select at least one team, or choose not interested in any.",
-        path: ["club_names"],
-      });
-    }
   });
 
 export async function POST(request: Request) {
   try {
+    const rate = checkRateLimit(
+      `team-application:${getClientIp(request)}`,
+      TEAM_APPLICATION_RATE_LIMIT,
+    );
+    if (!rate.allowed) {
+      return NextResponse.json(
+        {
+          error: `Too many applications from your network. Try again in ${Math.ceil(rate.retryAfterSec / 60)} minutes.`,
+        },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rate.retryAfterSec) },
+        },
+      );
+    }
+
     const formData = await request.formData();
     let clubNames: unknown = [];
     const rawClubs = formData.get("club_names");
@@ -65,7 +71,6 @@ export async function POST(request: Request) {
       phone_number: formData.get("phone_number"),
       semester: formData.get("semester"),
       club_names: clubNames,
-      not_interested: formData.get("not_interested") === "true",
       other_club: formData.get("other_club") || null,
     });
 
@@ -115,9 +120,7 @@ export async function POST(request: Request) {
     const resumeFilename = uploaded.filename;
 
     const submittedAt = new Date().toISOString();
-    const clubNameSummary = parsed.data.not_interested
-      ? NOT_INTERESTED_LABEL
-      : parsed.data.club_names.join(", ");
+    const clubNameSummary = parsed.data.club_names.join(", ");
 
     const supabase = createAnonSupabase();
     const { error } = await supabase.from("team_applications").insert({
@@ -127,8 +130,8 @@ export async function POST(request: Request) {
       phone_number: parsed.data.phone_number.replace(/\D/g, ""),
       semester: parsed.data.semester,
       club_name: clubNameSummary,
-      club_names: parsed.data.not_interested ? [] : parsed.data.club_names,
-      not_interested: parsed.data.not_interested,
+      club_names: parsed.data.club_names,
+      not_interested: false,
       other_club: parsed.data.other_club?.trim() || null,
       resume_url: resumeUrl,
       resume_filename: resumeFilename,

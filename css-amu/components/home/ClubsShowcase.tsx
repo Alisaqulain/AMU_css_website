@@ -11,8 +11,8 @@ export default function ClubsShowcase() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader
           eyebrow="Teams"
-          title="Nine teams, one society"
-          description="Each team runs projects, events, and campus work. Use the interest form to join."
+          title="Ten teams, one society"
+          description="Each team runs projects, events, and campus work. Apply through Join the team."
         />
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -42,11 +42,11 @@ export default function ClubsShowcase() {
                   ))}
                 </ul>
                 <Link
-                  href="/interest"
+                  href="/membershipForm"
                   className="mt-5 text-sm font-semibold hover:underline"
                   style={{ color: club.accent }}
                 >
-                  Interest form →
+                  Join the team →
                 </Link>
               </article>
             </FadeIn>

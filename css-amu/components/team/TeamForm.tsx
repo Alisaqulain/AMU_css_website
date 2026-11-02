@@ -8,10 +8,17 @@ import logo from "@/public/cslogo.png";
 import {
   CLUB_ACCENT,
   CLUB_OPTIONS,
-  NOT_INTERESTED_LABEL,
   SEMESTER_OPTIONS,
   type ClubName,
 } from "@/lib/clubs";
+import {
+  ENROLLMENT_ERROR,
+  PHONE_ERROR,
+  isValidEnrollment,
+  isValidPhone,
+  normalizeEnrollment,
+  normalizePhone,
+} from "@/lib/form-validation";
 
 const teamEnum = z.enum(CLUB_OPTIONS);
 
@@ -21,44 +28,15 @@ const teamSchema = z
     course: z.string().trim().min(2, "Please enter your course."),
     enrollment_number: z
       .string()
-      .trim()
-      .min(2, "Please enter your enrollment number."),
+      .refine(isValidEnrollment, ENROLLMENT_ERROR)
+      .transform(normalizeEnrollment),
     phone_number: z
       .string()
-      .trim()
-      .min(10, "Enter a valid phone number (at least 10 digits).")
-      .max(20, "Phone number is too long.")
-      .refine((value) => {
-        const digits = value.replace(/\D/g, "");
-        return digits.length >= 10 && digits.length <= 12;
-      }, "Enter a valid phone number (10–12 digits)."),
-    semester: z
-      .string()
-      .trim()
-      .min(1, "Please enter your semester.")
-      .max(30, "Semester is too long."),
-    club_names: z.array(teamEnum),
-    not_interested: z.boolean(),
+      .refine(isValidPhone, PHONE_ERROR)
+      .transform(normalizePhone),
+    semester: z.enum(SEMESTER_OPTIONS, "Please select your semester."),
+    club_names: z.array(teamEnum).min(1, "Select at least one team."),
     other_club: z.string().trim().max(300).optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.not_interested) {
-      if (data.club_names.length > 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Remove team selections or uncheck not interested.",
-          path: ["club_names"],
-        });
-      }
-      return;
-    }
-    if (data.club_names.length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Select at least one team, or choose not interested in any.",
-        path: ["club_names"],
-      });
-    }
   });
 
 function Field({
@@ -89,13 +67,13 @@ function Field({
 
 function onPhoneInput(e: FormEvent<HTMLInputElement>) {
   const el = e.currentTarget;
-  const digits = el.value.replace(/\D/g, "").slice(0, 12);
+  const digits = el.value.replace(/\D/g, "").slice(0, 10);
   if (el.value !== digits) el.value = digits;
 }
 
 function onEnrollmentInput(e: FormEvent<HTMLInputElement>) {
   const el = e.currentTarget;
-  const upper = el.value.toUpperCase();
+  const upper = el.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
   if (el.value !== upper) el.value = upper;
 }
 
@@ -108,23 +86,12 @@ export default function TeamForm() {
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedTeams, setSelectedTeams] = useState<ClubName[]>([]);
-  const [notInterested, setNotInterested] = useState(false);
   const [submittedAt, setSubmittedAt] = useState<string | null>(null);
 
   const toggleTeam = (team: ClubName) => {
-    setNotInterested(false);
     setSelectedTeams((prev) =>
       prev.includes(team) ? prev.filter((c) => c !== team) : [...prev, team],
     );
-  };
-
-  const toggleNotInterested = () => {
-    if (notInterested) {
-      setNotInterested(false);
-      return;
-    }
-    setSelectedTeams([]);
-    setNotInterested(true);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -149,7 +116,6 @@ export default function TeamForm() {
       phone_number: formData.get("phone_number"),
       semester: formData.get("semester"),
       club_names: selectedTeams,
-      not_interested: notInterested,
       other_club: formData.get("other_club") || undefined,
     };
 
@@ -170,7 +136,6 @@ export default function TeamForm() {
       body.set("phone_number", result.data.phone_number);
       body.set("semester", result.data.semester);
       body.set("club_names", JSON.stringify(result.data.club_names));
-      body.set("not_interested", String(result.data.not_interested));
       if (result.data.other_club) body.set("other_club", result.data.other_club);
       body.set("resume", resume);
 
@@ -189,7 +154,6 @@ export default function TeamForm() {
 
       setStatus("success");
       setSelectedTeams([]);
-      setNotInterested(false);
       setSubmittedAt(
         typeof data.submitted_at === "string"
           ? data.submitted_at
@@ -273,8 +237,9 @@ export default function TeamForm() {
                 required
                 autoComplete="tel"
                 inputMode="numeric"
-                pattern="[0-9]{10,12}"
-                title="Enter 10 to 12 digits only"
+                maxLength={10}
+                pattern="[6-9][0-9]{9}"
+                title="10-digit mobile number starting with 6, 7, 8 or 9"
                 placeholder="e.g. 9876543210"
                 className={inputClass}
                 onInput={onPhoneInput}
@@ -298,13 +263,20 @@ export default function TeamForm() {
                 className={inputClass}
               />
             </Field>
-            <Field id="enrollment_number" label="Enrollment number">
+            <Field
+              id="enrollment_number"
+              label="Enrollment number"
+              hint="2 letters followed by 4 digits."
+            >
               <input
                 id="enrollment_number"
                 name="enrollment_number"
                 type="text"
                 required
-                placeholder="University enrollment no."
+                maxLength={6}
+                pattern="[A-Za-z]{2}[0-9]{4}"
+                title="2 letters followed by 4 digits, e.g. GR8512"
+                placeholder="e.g. GR8512"
                 className={inputClass}
                 onInput={onEnrollmentInput}
                 autoCapitalize="characters"
@@ -382,21 +354,6 @@ export default function TeamForm() {
               );
             })}
           </div>
-
-          <button
-            type="button"
-            onClick={toggleNotInterested}
-            aria-pressed={notInterested}
-            className={`w-full rounded-2xl border-2 px-4 py-4 text-left transition ${
-              notInterested
-                ? "border-slate-500 bg-slate-100 shadow-sm"
-                : "border-slate-200 bg-slate-50/50 hover:border-slate-300"
-            }`}
-          >
-            <span className="text-sm font-bold text-slate-700">
-              {NOT_INTERESTED_LABEL}
-            </span>
-          </button>
         </section>
 
         <Field

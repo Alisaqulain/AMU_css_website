@@ -196,11 +196,11 @@ export const whyJoin = [
 export const faqItems = [
   {
     q: "Who can join CSS clubs?",
-    a: "CSS is open to interested students in the Faculty of Science. Fill the club interest form; domain leads review it and share next steps.",
+    a: "CSS is open to interested students in the Faculty of Science. Apply through the Join the team form; team leads review it and share next steps.",
   },
   {
     q: "Is CSS the same as recruitment?",
-    a: "Use the interest form to pick teams (Graphics, Web Dev, AI/ML, Cyber, DSA, and more). Core team applications with resume open on the Join Team page.",
+    a: "Apply on the Join the team page: pick your teams (Graphics, Web Dev, AI/ML, Cyber, DSA, and more) and upload your resume.",
   },
   {
     q: "Do I need prior experience?",

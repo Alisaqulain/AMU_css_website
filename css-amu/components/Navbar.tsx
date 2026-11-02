@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AnimatedLogo from "@/components/AnimatedLogo";
 
 const navLinks = [
@@ -12,11 +12,6 @@ const navLinks = [
   { name: "Team", href: "/team" },
   { name: "Certificates", href: "/certificate" },
   { name: "Contact", href: "/contact" },
-];
-
-const joinOptions = [
-  { href: "/interest", title: "Join a club", description: "Graphics, Web, AI/ML, Cyber, DSA & more" },
-  { href: "/membershipForm", title: "Join the team", description: "Core roles" },
 ];
 
 function NavLink({
@@ -65,63 +60,11 @@ function NavLink({
   );
 }
 
-function JoinButton({ onNavigate }: { onNavigate?: () => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (!open) return;
-    const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
-  }, [open]);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
+function JoinButton() {
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="btn-primary py-2.5 text-sm"
-      >
-        Join
-      </button>
-
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-50 mt-2 w-52 border border-[#e2e0d8] bg-white shadow-md"
-        >
-          {joinOptions.map((opt) => (
-            <Link
-              key={opt.href}
-              href={opt.href}
-              role="menuitem"
-              onClick={() => {
-                setOpen(false);
-                onNavigate?.();
-              }}
-              className="block border-b border-[#eee] px-4 py-3 last:border-0 hover:bg-[#faf9f6]"
-            >
-              <span className="font-semibold text-[#1a1f3d]">{opt.title}</span>
-              <span className="mt-0.5 block text-xs text-[#6b7280]">
-                {opt.description}
-              </span>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+    <Link href="/membershipForm" className="btn-primary whitespace-nowrap py-2.5 text-sm">
+      Join the team
+    </Link>
   );
 }
 

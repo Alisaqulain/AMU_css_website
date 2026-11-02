@@ -53,8 +53,8 @@ export default function HeroSection() {
             <Link href="/events" className="btn-primary">
               Events
             </Link>
-            <Link href="/interest" className="btn-secondary">
-              Club interest form
+            <Link href="/membershipForm" className="btn-secondary">
+              Join the team
             </Link>
             <Link
               href="/team"
